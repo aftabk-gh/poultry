@@ -10,5 +10,8 @@
       "src": "/(.*)",
       "dest": "project/wsgi.py"
     }
-  ]
+  ],
+  "build": {
+    "command": "npm i && npm build && python manage.py collectstatic --noinput && python manage.py migrate"
+  }
 }
