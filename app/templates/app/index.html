@@ -1,0 +1,26 @@
+{% load render_bundle from webpack_loader %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Sass ERP</title>
+    {% render_bundle 'main' 'css' %}
+  </head>
+  <body data-flags="{% block data_flags %}{% endblock %}">
+    {% block body %}{% endblock %}
+    <form name="csrf">{% csrf_token %}</form>
+    <div id="app"></div>
+    {% render_bundle 'main' 'js' %}
+  </body>
+</html>

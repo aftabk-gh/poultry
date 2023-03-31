@@ -1,0 +1,37 @@
+.app-bar-cls {
+    position: absolute;
+    border-bottom: none;
+    background-color: #f5f5f5;
+    .appbar-toolbar-cls {
+      min-height: 80px;
+      padding: 0px;
+  
+      .icon-btn-cls {
+        margin-top: 5px;
+      }
+      .search-icon-box {
+        width: 80px;
+        display: flex;
+        justify-content: space-around;
+      }
+      .user-box {
+        .hey-img {
+          height: 22px;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    .app-bar-cls {
+      .toolbar-cls {
+        .icon-btn-cls {
+          padding-left: 13px;
+        }
+        .divider-cls {
+          margin-left: 11px;
+        }
+      }
+    }
+  }
+  

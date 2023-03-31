@@ -1,0 +1,76 @@
+.DeleteModal {
+  .MuiDialog-paper {
+    width: 338px;
+    height: 418px;
+    align-items: center;
+    box-shadow: unset;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .MuiDialogTitle-root + .MuiDialogContent-root {
+    padding-bottom: 0px;
+  }
+  .MuiDialogTitle-root {
+    width: 100%;
+    padding-bottom: 0px;
+  }
+  &__Content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    .content-cls {
+      width: 100%;
+      .want-to-delete {
+        font-size: 26px;
+        font-weight: 700;
+        margin-left: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+  &__Actions {
+    margin-bottom: 40px;
+    .submitBtn {
+      color: white;
+      background: #ff2f2f;
+      width: 139px;
+      height: 44px;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 400;
+      border-radius: 12px;
+      text-transform: capitalize;
+      &:hover {
+        background: #ffcdcd;
+        color: white;
+      }
+      .submit-img {
+        margin-left: 10px;
+        display: flex;
+      }
+    }
+    .resetBtn {
+      color: black;
+      background: white;
+      width: 139px;
+      height: 44px;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: 400;
+      border-radius: 12px;
+      border: 1px solid #e7e7e7;
+      text-transform: capitalize;
+      &:hover {
+        background: white;
+        color: grey;
+      }
+      .reset-img {
+        margin-right: 10px;
+        display: flex;
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+.myContainer {
+  // max-width: 90%;
+  margin: auto;
+}
+.title {
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 10px !important;
+}
+.value {
+  margin-bottom: 10px !important;
+  padding: 10px;
+  font-size: smaller;
+  font-weight: bold;
+}
+.boxContainer {
+  border: 1px solid #eee !important;
+  padding: 20px !important;
+  border-radius: 5px !important;
+  margin-bottom: 1rem;
+}
+.heading {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.011em;
+  color: #000000;
+  opacity: 0.5;
+}
+.additaionalInfotitle {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.011em;
+  color: #000000;
+  opacity: 0.8;
+  margin-right: 16px;
+}
+.text {
+  width: 180px !important;
+  font-family: "Lato";
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  letter-spacing: -0.011em !important;
+  color: #000000 !important;
+}
+.upload-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  opacity: 0.5;
+  color: #aaaaaa;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  .upload-img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    display: flex;
+  }
+}

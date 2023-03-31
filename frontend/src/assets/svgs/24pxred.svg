@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1000" height="1000" viewBox="0 0 1000 1000" xml:space="preserve">
+<desc>Created with Fabric.js 3.5.0</desc>
+<defs>
+</defs>
+<rect x="0" y="0" width="100%" height="100%" fill="#ffffff"/>
+<g transform="matrix(37.8788 0 0 37.8788 500.0001 500.0001)" id="289127">
+<g style="" vector-effect="non-scaling-stroke">
+		<g transform="matrix(1 0 0 1 0 -1)" clip-path="url(#CLIPPATH_2)">
+<clipPath id="CLIPPATH_2">
+	<rect transform="matrix(1 0 0 1 0 1)" id="clip0_700_1268" x="-12" y="-12" rx="0" ry="0" width="24" height="24"/>
+</clipPath>
+<path style="stroke: rgb(255,47,47); stroke-width: 1.5; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; is-custom-font: none; font-file-url: none; fill: none; fill-rule: nonzero; opacity: 0.4;" transform=" translate(-12, -11)" d="M 14 8 H 11.5 C 11.1022 8 10.7206 8.15804 10.4393 8.43934 C 10.158 8.72064 10 9.10218 10 9.5 C 10 9.89782 10.158 10.2794 10.4393 10.5607 C 10.7206 10.842 11.1022 11 11.5 11 H 12.5 C 12.8978 11 13.2794 11.158 13.5607 11.4393 C 13.842 11.7206 14 12.1022 14 12.5 C 14 12.8978 13.842 13.2794 13.5607 13.5607 C 13.2794 13.842 12.8978 14 12.5 14 H 10 M 12 14 V 15.5 M 12 6.5 V 8" stroke-linecap="round"/>
+</g>
+		<g transform="matrix(1 0 0 1 0 0)" clip-path="url(#CLIPPATH_3)">
+<clipPath id="CLIPPATH_3">
+	<rect transform="matrix(1 0 0 1 0 0)" id="clip0_700_1268" x="-12" y="-12" rx="0" ry="0" width="24" height="24"/>
+</clipPath>
+<path style="stroke: rgb(255,47,47); stroke-width: 1.5; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; is-custom-font: none; font-file-url: none; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -12)" d="M 3 8 V 21 L 6.85714 19 L 9.42857 21 L 12 19 L 14.5714 21 L 17.1429 19 L 21 21 V 8 V 6.85715 C 21 4.7269 19.2731 3 17.1429 3 H 6.85714 C 4.7269 3 3 4.7269 3 6.85714 V 8 Z" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</svg>

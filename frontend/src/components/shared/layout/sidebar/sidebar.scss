@@ -1,0 +1,47 @@
+.sidebar-cls {
+    .drawer-cls {
+      position: relative;
+      height: 100vh;
+      .toolbar-cls {
+        padding-right: 0px;
+        padding-left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .css-pmywly-MuiToolbar-root {
+          padding-right: 0px;
+          padding-left: 0px;
+        }
+        .app-icon-box {
+          margin-top: 17px;
+          margin-left: 3px;
+        }
+      }
+      .icon-lists {
+        height: 100%;
+        margin-top: 60px;
+        .drawer-arrow-btn {
+          position: absolute;
+          bottom: 98px;
+          width: 100%;
+        }
+        .drawer-setting-btn {
+          position: absolute;
+          bottom: 20px;
+          color: "red";
+          cursor: pointer;
+        }
+        .list-items-btn {
+          margin-top: 25px;
+          .list-item-icon {
+            margin-left: 8px;
+            .icon-img {
+              height: 24px;
+              width: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+  

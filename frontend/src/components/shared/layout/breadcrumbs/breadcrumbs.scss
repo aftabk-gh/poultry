@@ -1,0 +1,12 @@
+.bread-crumbs {
+  .MuiBreadcrumbs-separator {
+    font-size: 30px !important;
+    position: relative;
+    margin-left: 23px !important;
+    margin-right: 23px !important;
+    top: -4px;
+  }
+  a:hover {
+    color: red;
+  }
+}
