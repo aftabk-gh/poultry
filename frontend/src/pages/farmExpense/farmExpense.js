@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Button, Box, Typography, IconButton } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
 import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
 import { useFlocksFarmExpenseListQuery } from "@src/store/api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -60,7 +64,7 @@ const FarmExpense = () => {
       field: "from_date",
       headerName: "From Date",
       sortable: false,
-      width: 300,
+      width: 200,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
@@ -73,7 +77,7 @@ const FarmExpense = () => {
       field: "to_date",
       headerName: "To Date",
       sortable: false,
-      width: 300,
+      width: 200,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
@@ -86,7 +90,7 @@ const FarmExpense = () => {
       field: "total_expense",
       headerName: "Total",
       sortable: false,
-      width: 300,
+      width: 200,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
@@ -142,6 +146,57 @@ const FarmExpense = () => {
       setIsDataLoading(false);
     }
   }, [rows, isLoading]);
+  const [itemColumns, setItemColumns] = useState([]);
+
+  // Update itemColumns whenever rows changes
+  useEffect(() => {
+    // Extract unique item titles across all rows
+    const uniqueTitles = Array.from(
+      new Set(rows.flatMap((row) => row.items.map((item) => item.title)))
+    );
+
+    // Generate columns dynamically based on unique titles
+    const newColumns = uniqueTitles.map((title) => ({
+      field: title,
+      headerName: title,
+      width: 150,
+      valueGetter: (params) =>
+        params.row.items?.find((i) => i.title === params.field)?.value,
+      renderCell: (params) => <div className="item-value">{params.value}</div>,
+    }));
+
+    setItemColumns(newColumns);
+  }, [rows]);
+
+  // Combine the fixed columns and dynamic columns
+  const allColumns = [
+    ...columns.slice(0, -2),
+    ...itemColumns,
+    ...columns.slice(-2),
+  ];
+
+  // Calculate column sums
+  const sums = Object.fromEntries(
+    allColumns.map((col) => [
+      col.field,
+      rows.reduce((acc, row) => {
+        if (col.field in row) {
+          return acc + row[col.field];
+        } else if (row.items) {
+          const item = row.items.find((i) => i.title === col.field);
+          if (item) {
+            return acc + Number(item.value);
+          }
+        }
+        return acc;
+      }, 0),
+    ])
+  );
+
+  // Add row with column sums at the end
+  const totalRow = { id: "total", ...sums };
+  const rowsWithTotal = [...rows, totalRow];
+
   return (
     <Box className="departmentDataGridTable-section">
       <Box
@@ -188,8 +243,8 @@ const FarmExpense = () => {
             className="dataGrid"
             rowHeight={80}
             autoHeight
-            rows={[...farmExpenseData]}
-            columns={columns}
+            rows={rowsWithTotal}
+            columns={allColumns}
             disableColumnFilter
             disableColumnMenu
             disableColumnSelector
