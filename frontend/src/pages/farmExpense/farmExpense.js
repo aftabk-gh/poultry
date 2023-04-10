@@ -193,10 +193,6 @@ const FarmExpense = () => {
     ])
   );
 
-  // Add row with column sums at the end
-  const totalRow = { id: "total", ...sums };
-  const rowsWithTotal = [...rows, totalRow];
-
   return (
     <Box className="departmentDataGridTable-section">
       <Box
@@ -243,7 +239,7 @@ const FarmExpense = () => {
             className="dataGrid"
             rowHeight={80}
             autoHeight
-            rows={rowsWithTotal}
+            rows={rows}
             columns={allColumns}
             disableColumnFilter
             disableColumnMenu
