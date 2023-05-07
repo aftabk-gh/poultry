@@ -1,71 +1,138 @@
-import { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Button, Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
+import { useNavigate, useParams } from "react-router-dom";
 import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
-import Avatar from "@src/assets/svgs/avatar.svg";
-import FilterIcon from "@src/assets/svgs/filterButtonIcon.svg";
-import EditIcon from "@src/assets/svgs/Edit.svg";
-import "../farms/farms.scss";
-import SearchBox from "../../components/shared/layout/searchBox/searchBox";
-import { useFarmsListQuery } from "../../store/generated.ts";
-import { useNavigate } from "react-router-dom";
-import FarmModal from "@src/components/shared/popups/farmsModal/farmsModal";
+import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
+import AddIcon from "@mui/icons-material/Add";
+import CallMadeIcon from "@mui/icons-material/CallMade";
+import FlockMedicineModal from "@src/components/shared/popups/medicineModal/flockMedicineModal";
+import {
+  useFlocksMedicinesListQuery,
+  useMedicineUsageDeleteMutation,
+} from "@src/store/api";
+import DeleteModal from "@src/components/shared/popups/deleteModal/deleteModal";
+import { toast } from "react-toastify";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 
-function Farms() {
+const FlockMedicine = () => {
+  const [action, setAction] = useState("add");
+  const [rowCellId, setRowCellId] = useState();
+  const params = useParams();
+  const [openModal, setOpenModal] = useState(false);
+  const [openMoveModal, setOpenMoveModal] = useState(false);
+  const [deleteMedicine] = useMedicineUsageDeleteMutation();
   const [pageSize, setPageSize] = useState(10);
-  const { data: rows = [], isLoading } = useFarmsListQuery();
-  const [farmsData, setFarmsData] = useState([]);
+  const { data: rows = [], isLoading } = useFlocksMedicinesListQuery({
+    id: params?.id,
+  });
+  const [medicineData, setMedicineData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);
+
+  const handleMedicineDelete = async () => {
+    await deleteMedicine({
+      id: rowCellId,
+    })
+      .unwrap()
+      .then(async () => {
+        toast.success("Medicine usage deleted successfully", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        handleDeleteModalClose();
+      })
+      .catch((error) => {
+        toastAPIError("Something went wrong.", error.status, error.data);
+      });
+  };
+
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+  const handleMoveModalOpen = (id) => {
+    setOpenMoveModal(true);
+  };
+
+  const handleModalClose = () => {
+    setRowCellId(undefined);
+    setAction("add");
+    setOpenModal(false);
+  };
+  const handleMoveModalClose = () => {
+    setRowCellId(undefined);
+    setOpenMoveModal(false);
+  };
+
+  const handleEditModalOpen = (event, cellId) => {
+    event.stopPropagation();
+    setAction("edit");
+    setRowCellId(cellId);
+    setOpenModal(true);
+  };
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleDeleteModalClose = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleDeleteModalOpen = (event, cellId) => {
+    event.stopPropagation();
+    setRowCellId(cellId);
+    setOpenDeleteModal(true);
+  };
   const columns = [
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   sortable: false,
+    //   width: 100,
+    //   renderCell: (cellValues) => {
+    //     return (
+    //       <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
+    //         {cellValues.row.id}
+    //       </p>
+    //     );
+    //   },
+    // },
     {
-      field: "id",
-      headerName: "ID",
+      field: "date",
+      headerName: "Date",
       sortable: false,
-      width: 100,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.id}
+            {cellValues.row.date}
           </p>
         );
       },
     },
     {
-      field: "name",
-      headerName: "Name",
+      field: "medicine",
+      headerName: "Medicine",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.name}
+            {cellValues.row.medicine.name}
           </p>
         );
       },
     },
     {
-      field: "category",
-      headerName: "Category",
+      field: "quantity",
+      headerName: "Quantity",
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: (cellValues) => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.category}
-          </p>
-        );
-      },
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      sortable: false,
-      width: 200,
-      renderCell: (cellValues) => {
-        return (
-          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.address}
+            {cellValues.row.quantity}
           </p>
         );
       },
@@ -86,55 +153,29 @@ function Farms() {
               id="edit-btn-id"
               className="edit-btn"
             >
-              <img className="profile-pic" src={EditIcon} alt="editIcon" />
+              <img className="profile-pic" src={ShowIcon} alt="editIcon" />
             </IconButton>
-            {/* <IconButton
-                onClick={(event) =>
-                  handleDeleteModalOpen(event, cellValues.row.id)
-                }
+            <IconButton
+              onClick={(event) =>
+                handleDeleteModalOpen(event, cellValues.row.id)
+              }
               aria-label="delete"
               id="delete-btn-id"
               className="delete-btn"
             >
               <img className="profile-pic" src={DeleteIcon} alt="deleteIcon" />
-            </IconButton> */}
+            </IconButton>
           </Box>
         );
       },
     },
   ];
-  const navigate = useNavigate();
-  const handleOnCellClick = (params) => {
-    navigate(`/farms/${params.row.id}/`);
-  };
-
-  const [action, setAction] = useState("add");
-  const [rowCellId, setRowCellId] = useState();
-  const [openModal, setOpenModal] = useState(false);
-
-  const handleModalOpen = () => {
-    setOpenModal(true);
-  };
-
-  const handleModalClose = () => {
-    setRowCellId(undefined);
-    setAction("add");
-    setOpenModal(false);
-  };
-
-  const handleEditModalOpen = (event, cellId) => {
-    event.stopPropagation();
-    setAction("edit");
-    setRowCellId(cellId);
-    setOpenModal(true);
-  };
-
   useEffect(() => {
     if (!isLoading) {
       if (rows.length) {
-        setFarmsData(rows);
+        setMedicineData(rows);
       } else {
-        setFarmsData([]);
+        setMedicineData([]);
       }
       setIsDataLoading(false);
     }
@@ -145,7 +186,7 @@ function Farms() {
         className="top-bar-cls"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Typography className="title-cls">{"Farms"}</Typography>
+        <Typography className="title-cls">{"Medicine"}</Typography>
         <Box
           className="filter-section"
           sx={{ display: "flex", justifyContent: "space-between" }}
@@ -171,27 +212,25 @@ function Farms() {
           <Button
             variant="outlined"
             className="create-btn"
-            style={{ borderRadius: "12px" }}
-            startIcon={<AddIcon />}
+            style={{ borderRadius: "12px", width: "100%" }}
             onClick={handleModalOpen}
+            startIcon={<AddIcon />}
           >
-            <p id="create-btn-text">{"Create"}</p>
+            <p id="create-btn-text">{"Add Usage"}</p>
           </Button>
         </Box>
       </Box>
-
       <div className="dataGridTable-main">
         {!dataLoading && (
           <DataGrid
             className="dataGrid"
             rowHeight={80}
             autoHeight
-            rows={[...farmsData]}
+            rows={[...medicineData]}
             columns={columns}
             disableColumnFilter
             disableColumnMenu
             disableColumnSelector
-            onCellClick={handleOnCellClick}
             loading={isLoading}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             pageSize={pageSize}
@@ -214,7 +253,6 @@ function Farms() {
                 color: "#6C6C6C",
                 ":focus": {
                   outline: "white",
-                  cursor: "pointer",
                 },
               },
               "& .css-1jbbcbn-MuiDataGrid-columnHeaderTitle": {
@@ -277,13 +315,19 @@ function Farms() {
           />
         )}
       </div>
-      <FarmModal
-        farmId={rowCellId}
+      <DeleteModal
+        open={openDeleteModal}
+        handleObjDelete={handleMedicineDelete}
+        handleClose={handleDeleteModalClose}
+      />
+      <FlockMedicineModal
+        medicineId={rowCellId}
         action={action}
         open={openModal}
         handleClose={handleModalClose}
       />
     </Box>
   );
-}
-export default Farms;
+};
+
+export default FlockMedicine;

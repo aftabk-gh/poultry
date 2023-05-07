@@ -11,6 +11,7 @@ import FlockDetail from "../../pages/flockDetail/flockDetail";
 import Login from "../../pages/login/login";
 import Signup from "../../pages/signUp/signUp";
 import ProtectedRoute from "./ProtectedRoute";
+import FarmDetail from "@src/pages/farms/farmDetail";
 
 const AppRoutes = () => {
   return (
@@ -28,7 +29,9 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="/bryler" element={<Bryler />} />
         <Route path="/farms" element={<Farm />} />
+        <Route path="/farms/:id" element={<FarmDetail />} />
         <Route path="/farms/:farmId/flocks" element={<Flock />} />
+        <Route path="/farms/:farmId/medicine" element={<Medicine />} />
         <Route path="/farms/:farmId/flocks/:id" element={<FlockDetail />} />
         <Route path="/layer" element={<Layer />} />
         <Route path="/medicine" element={<Medicine />} />

@@ -142,33 +142,16 @@ class Medicine(models.Model):
     packing = models.CharField(max_length=255)
     opening = models.IntegerField(null=True, blank=True)
     recieving = models.IntegerField(null=True, blank=True)
-    usage = models.JSONField(default=list)
+    description = models.TextField(null=True, blank=True)
+    moved = models.IntegerField(null=True, blank=True)
     rate = models.IntegerField(null=True, blank=True)
-    flock = models.ForeignKey(Flock, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     company = models.ForeignKey(Comapny, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.name
-
-    def clean(self):
-        super().clean()
-        if self.usage and not isinstance(self.usage, list):
-            raise ValidationError("Data must be a list of objects")
-        for obj in self.usage:
-            if not isinstance(obj, dict):
-                raise ValidationError("Objects in list must be dictionaries")
-            if set(obj.keys()) != {"date", "qty"}:
-                raise ValidationError(
-                    'Objects in list must have only "date" and "qty" attributes'
-                )
-            if not isinstance(int(obj["qty"]), int):
-                raise ValidationError("Quantity attribute must be an integer")
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        return super().save(*args, **kwargs)
 
     @property
     def total(self):
@@ -197,9 +180,27 @@ class Medicine(models.Model):
     @property
     def qty_used(self):
         total = 0
-        for item in self.usage:
-            total += int(item["qty"])
+        usage = MedicineUsage.objects.filter(medicine=self)
+        for item in usage:
+            total = total + item.quantity
         return total
+
+
+class MedicineUsage(models.Model):
+    medicine = models.ForeignKey(
+        Medicine, on_delete=models.CASCADE, related_name="usage"
+    )
+    flock = models.ForeignKey(
+        Flock, on_delete=models.CASCADE, related_name="used_medicines"
+    )
+    date = models.DateField()
+    quantity = models.IntegerField()
+    company = models.ForeignKey(Comapny, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.medicine}-{str(self.date)}"
 
 
 class Feed(models.Model):

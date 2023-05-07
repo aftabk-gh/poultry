@@ -10,6 +10,10 @@ import {
   DialogTitle,
   TextField,
   Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useFormik, FieldArray, FormikProvider } from "formik";
 import { toast } from "react-toastify";
@@ -24,17 +28,26 @@ import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import {
-  useFarmsMedicineCreateMutation,
-  useMedicineUpdateMutation,
-  useMedicineReadQuery,
+  useFlocksMedicinesCreateMutation,
+  useMedicineUsageUpdateMutation,
+  useMedicineUsageReadQuery,
+  useFarmsMedicineListQuery,
 } from "@src/store/api";
 
-const MedicineModal = ({ medicineId, action, open, handleClose }) => {
+const FlockMedicineModal = ({ medicineId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const { farmId } = useParams();
-  const [medicineCreate, {}] = useFarmsMedicineCreateMutation();
-  const [medicineUpdate, {}] = useMedicineUpdateMutation();
-  const { data: medicineData } = useMedicineReadQuery(
+  const { id, farmId } = useParams();
+  const [medicineCreate, {}] = useFlocksMedicinesCreateMutation();
+  const [medicineUpdate, {}] = useMedicineUsageUpdateMutation();
+  const { data: medicines, isLoading } = useFarmsMedicineListQuery(
+    {
+      farmId: farmId,
+    },
+    {
+      skip: !farmId,
+    }
+  );
+  const { data: medicineData } = useMedicineUsageReadQuery(
     { id: medicineId },
     { skip: !medicineId }
   );
@@ -42,15 +55,14 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
   const handleMedicineCreate = async () => {
     setLoading(true);
     await medicineCreate({
-      farmId,
-      medicine: {
-        farm: farmId,
+      id,
+      medicineUsage: {
         ...formik.values,
       },
     })
       .unwrap()
       .then(async () => {
-        toast.success("Medicine added successfully.", {
+        toast.success("Medicine usage added successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -65,16 +77,14 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
   const handleMedicineEdit = async () => {
     setLoading(true);
     await medicineUpdate({
-      farmId,
       id: medicineId,
-      medicine: {
-        farm: farmId,
+      medicineUsage: {
         ...formik.values,
       },
     })
       .unwrap()
       .then(async () => {
-        toast.success("Medicine updated successfully.", {
+        toast.success("Medicine usage updated successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -89,26 +99,21 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
 
   const populateEditableData = (medicineData) => {
     formik.setValues({
-      name: medicineData?.name,
-      packing: medicineData?.packing,
-      opening: medicineData?.opening,
-      description: medicineData?.description,
-      recieving: medicineData?.recieving,
-      rate: medicineData?.rate,
+      medicine: medicineData?.medicine.id,
+      date: medicineData?.date,
+      quantity: medicineData?.quantity,
     });
   };
   const formik = useFormik({
     initialValues: {
-      name: "",
-      packing: "",
-      description: "",
-      opening: null || undefined,
-      recieving: null || undefined,
-      rate: null || undefined,
+      medicine: "",
+      date: "",
+      quantity: null || undefined,
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required("Required"),
-      packing: Yup.string().required("Required"),
+      medicine: Yup.string().required("Required"),
+      date: Yup.string().required("Required"),
+      quantity: Yup.string().required("Required"),
     }),
     validateOnChange: true,
     onSubmit: () => {
@@ -137,12 +142,14 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
           <Box className="modal-header-cls">
             <Box className="heading-text-box">
               <Typography className="heading-text">
-                {action == "edit" ? "Update a medicine" : "Add a medicine"}
+                {action == "edit"
+                  ? "Update a medicine usage"
+                  : "Add a medicine usage"}
               </Typography>
               <Typography className="subheading-text">
                 {action == "edit"
-                  ? "Fill the following fields to update a medicine"
-                  : "Fill the following fields to add a medicine"}
+                  ? "Fill the following fields to update a medicine usage"
+                  : "Fill the following fields to add a medicine usage"}
               </Typography>
             </Box>
             <Box className="cross-icon-box" onClick={resetModal}>
@@ -154,37 +161,43 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={1} mt={1}>
               <Grid item xs={6}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  label={"Name"}
-                  value={formik.values.name}
-                  name="name"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.name && formik.errors.name}
-                </Typography>
+                <FormControl fullWidth>
+                  <InputLabel>Medicine</InputLabel>
+                  {!isLoading && (
+                    <Select
+                      label="Medicine"
+                      name={`medicine`}
+                      value={formik.values.medicine}
+                      onChange={formik.handleChange}
+                      fullWidth
+                    >
+                      {medicines?.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                  <Typography className="errorText">
+                    {formik.touched.medicine && formik.errors.medicine}
+                  </Typography>
+                </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   margin="normal"
                   className="text-field-cls"
                   fullWidth
-                  label={"Packing"}
-                  value={formik.values.packing}
-                  name="packing"
+                  value={formik.values.date}
+                  name="date"
+                  type="date"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.packing && formik.errors.packing}
+                  {formik.touched.date && formik.errors.date}
                 </Typography>
               </Grid>
             </Grid>
@@ -195,74 +208,16 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
                   className="text-field-cls"
                   fullWidth
                   type="number"
-                  label={"Opening"}
-                  value={formik.values.opening || ""}
-                  name="opening"
+                  label={"Quantity"}
+                  value={formik.values.quantity || ""}
+                  name="quantity"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.opening && formik.errors.opening}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  type="number"
-                  label={"Recieving"}
-                  value={formik.values.recieving || ""}
-                  name="recieving"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.recieving && formik.errors.recieving}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  multiline
-                  label={"Description"}
-                  value={formik.values.description}
-                  name="description"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.description && formik.errors.description}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-              <Grid item xs={6}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  type="number"
-                  label={"Rate"}
-                  value={formik.values.rate || ""}
-                  name="rate"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.rate && formik.errors.rate}
+                  {formik.touched.quantity && formik.errors.quantity}
                 </Typography>
               </Grid>
             </Grid>
@@ -297,4 +252,4 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
   );
 };
 
-export default MedicineModal;
+export default FlockMedicineModal;

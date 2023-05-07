@@ -19,38 +19,37 @@ import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
 import uploadIcon from "../../../../assets/svgs/plus.svg";
 
 import { intRegex, timeOut, toastAPIError } from "@src/helpers/utils/utils";
-import "./medicineModal.scss";
 import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import {
-  useFarmsMedicineCreateMutation,
-  useMedicineUpdateMutation,
-  useMedicineReadQuery,
+  useFlocksFeedCreateMutation,
+  useFlocksFeedUpdateMutation,
+  useFlocksFeedReadQuery,
 } from "@src/store/api";
 
-const MedicineModal = ({ medicineId, action, open, handleClose }) => {
+const FeedModal = ({ feedId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const { farmId } = useParams();
-  const [medicineCreate, {}] = useFarmsMedicineCreateMutation();
-  const [medicineUpdate, {}] = useMedicineUpdateMutation();
-  const { data: medicineData } = useMedicineReadQuery(
-    { id: medicineId },
-    { skip: !medicineId }
+  const { id: flockId } = useParams();
+  const [feedCreate, {}] = useFlocksFeedCreateMutation();
+  const [feedUpdate, {}] = useFlocksFeedUpdateMutation();
+  const { data: feedData } = useFlocksFeedReadQuery(
+    { id: feedId, flockId },
+    { skip: !feedId }
   );
 
-  const handleMedicineCreate = async () => {
+  const handleFeedCreate = async () => {
     setLoading(true);
-    await medicineCreate({
-      farmId,
-      medicine: {
-        farm: farmId,
+    await feedCreate({
+      flockId,
+      feed: {
+        flock: flockId,
         ...formik.values,
       },
     })
       .unwrap()
       .then(async () => {
-        toast.success("Medicine added successfully.", {
+        toast.success("Feed added successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -62,19 +61,19 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
         toastAPIError("Something went wrong.", error.status, error.data);
       });
   };
-  const handleMedicineEdit = async () => {
+  const handleFeedEdit = async () => {
     setLoading(true);
-    await medicineUpdate({
-      farmId,
-      id: medicineId,
-      medicine: {
-        farm: farmId,
+    await feedUpdate({
+      flockId,
+      id: feedId,
+      feed: {
+        flock: flockId,
         ...formik.values,
       },
     })
       .unwrap()
       .then(async () => {
-        toast.success("Medicine updated successfully.", {
+        toast.success("Feed updated successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -87,35 +86,41 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
       });
   };
 
-  const populateEditableData = (medicineData) => {
+  const populateEditableData = (feedData) => {
     formik.setValues({
-      name: medicineData?.name,
-      packing: medicineData?.packing,
-      opening: medicineData?.opening,
-      description: medicineData?.description,
-      recieving: medicineData?.recieving,
-      rate: medicineData?.rate,
+      date: feedData?.date,
+      feed_type: feedData?.feed_type,
+      bags: feedData?.bags,
+      rate: feedData?.rate,
+      discount: feedData?.discount,
+      cr: feedData?.cr,
+      comments: feedData?.comments,
     });
   };
   const formik = useFormik({
     initialValues: {
-      name: "",
-      packing: "",
-      description: "",
-      opening: null || undefined,
-      recieving: null || undefined,
-      rate: null || undefined,
+      date: "",
+      feed_type: "",
+      bags: "",
+      rate: "",
+      discount: "",
+      cr: null || undefined,
+      comments: "",
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required("Required"),
-      packing: Yup.string().required("Required"),
+      date: Yup.date().required("Required"),
+      feed_type: Yup.string().required("Required"),
+      bags: Yup.string().required("Required"),
+      rate: Yup.string().required("Required"),
+      discount: Yup.string().required("Required"),
+      comments: Yup.string(),
     }),
     validateOnChange: true,
     onSubmit: () => {
       if (action === "edit") {
-        handleMedicineEdit();
+        handleFeedEdit();
       } else {
-        handleMedicineCreate();
+        handleFeedCreate();
       }
     },
   });
@@ -126,9 +131,9 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
 
   useEffect(() => {
     if (action === "edit") {
-      populateEditableData(medicineData);
+      populateEditableData(feedData);
     }
-  }, [action, medicineData, medicineId]);
+  }, [action, feedData, feedId]);
 
   return (
     <>
@@ -137,12 +142,12 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
           <Box className="modal-header-cls">
             <Box className="heading-text-box">
               <Typography className="heading-text">
-                {action == "edit" ? "Update a medicine" : "Add a medicine"}
+                {action == "edit" ? "Update a feed" : "Add a feed"}
               </Typography>
               <Typography className="subheading-text">
                 {action == "edit"
-                  ? "Fill the following fields to update a medicine"
-                  : "Fill the following fields to add a medicine"}
+                  ? "Fill the following fields to update a feed"
+                  : "Fill the following fields to add a feed"}
               </Typography>
             </Box>
             <Box className="cross-icon-box" onClick={resetModal}>
@@ -158,16 +163,16 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
                   margin="normal"
                   className="text-field-cls"
                   fullWidth
-                  label={"Name"}
-                  value={formik.values.name}
-                  name="name"
+                  type="date"
+                  value={formik.values.date}
+                  name="date"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.name && formik.errors.name}
+                  {formik.touched.date && formik.errors.date}
                 </Typography>
               </Grid>
               <Grid item xs={6}>
@@ -175,16 +180,16 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
                   margin="normal"
                   className="text-field-cls"
                   fullWidth
-                  label={"Packing"}
-                  value={formik.values.packing}
-                  name="packing"
+                  label={"Feed Type"}
+                  value={formik.values.feed_type}
+                  name="feed_type"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.packing && formik.errors.packing}
+                  {formik.touched.feed_type && formik.errors.feed_type}
                 </Typography>
               </Grid>
             </Grid>
@@ -195,58 +200,18 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
                   className="text-field-cls"
                   fullWidth
                   type="number"
-                  label={"Opening"}
-                  value={formik.values.opening || ""}
-                  name="opening"
+                  label={"Bags"}
+                  value={formik.values.bags || ""}
+                  name="bags"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.opening && formik.errors.opening}
+                  {formik.touched.bags && formik.errors.bags}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  type="number"
-                  label={"Recieving"}
-                  value={formik.values.recieving || ""}
-                  name="recieving"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.recieving && formik.errors.recieving}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <TextField
-                  margin="normal"
-                  className="text-field-cls"
-                  fullWidth
-                  multiline
-                  label={"Description"}
-                  value={formik.values.description}
-                  name="description"
-                  onChange={formik.handleChange}
-                  InputLabelProps={{
-                    className: "textfield_label",
-                  }}
-                />
-                <Typography className="errorText">
-                  {formik.touched.description && formik.errors.description}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container spacing={1}>
               <Grid item xs={6}>
                 <TextField
                   margin="normal"
@@ -263,6 +228,64 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
                 />
                 <Typography className="errorText">
                   {formik.touched.rate && formik.errors.rate}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <TextField
+                  margin="normal"
+                  className="text-field-cls"
+                  fullWidth
+                  type="number"
+                  label={"Discount"}
+                  value={formik.values.discount || ""}
+                  name="discount"
+                  onChange={formik.handleChange}
+                  InputLabelProps={{
+                    className: "textfield_label",
+                  }}
+                />
+                <Typography className="errorText">
+                  {formik.touched.discount && formik.errors.discount}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  type="number"
+                  margin="normal"
+                  className="text-field-cls"
+                  fullWidth
+                  label={"Cr"}
+                  value={formik.values.cr || ""}
+                  name="cr"
+                  onChange={formik.handleChange}
+                  InputLabelProps={{
+                    className: "textfield_label",
+                  }}
+                />
+                <Typography className="errorText">
+                  {formik.touched.cr && formik.errors.cr}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container spacing={1} marginTop={1}>
+              <Grid item xs={12}>
+                <TextField
+                  margin="normal"
+                  className="text-field-cls"
+                  fullWidth
+                  multiline
+                  label={"Comments"}
+                  value={formik.values.comments || ""}
+                  name="comments"
+                  onChange={formik.handleChange}
+                  InputLabelProps={{
+                    className: "textfield_label",
+                  }}
+                />
+                <Typography className="errorText">
+                  {formik.touched.comments && formik.errors.comments}
                 </Typography>
               </Grid>
             </Grid>
@@ -297,4 +320,4 @@ const MedicineModal = ({ medicineId, action, open, handleClose }) => {
   );
 };
 
-export default MedicineModal;
+export default FeedModal;

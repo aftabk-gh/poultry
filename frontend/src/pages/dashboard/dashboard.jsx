@@ -15,9 +15,9 @@ const Dashboard = () => {
       <Link className="link" to="/layer">
         {"View layer"}
       </Link>
-      <Link className="link" to="/medicine">
+      {/* <Link className="link" to="/medicine">
         {"View medicine"}
-      </Link>
+      </Link> */}
     </Box>
   );
 };

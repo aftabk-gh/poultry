@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login
 from django.middleware import csrf
+from django.db import transaction
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView
@@ -19,6 +20,9 @@ from app.serializers import (
     SignUpSerializer,
     LoginSerializer,
     MeSerializer,
+    MedicineMoveSerializer,
+    MedicineUsageSerializer,
+    FlockMedicineSerializer,
 )
 from app.models import (
     User,
@@ -30,6 +34,7 @@ from app.models import (
     Sale,
     OtherExpense,
     OtherIncome,
+    MedicineUsage,
 )
 from app.mixins import CompanyMixin, FlockMixin
 
@@ -103,15 +108,6 @@ class FlockViewSet(ModelViewSet, CompanyMixin):
 class FarmExpenseViewSet(ModelViewSet, FlockMixin):
     serializer_class = ExpenseSerializer
     queryset = FarmExpense.objects.all()
-
-
-class MedicineViewSet(ModelViewSet, FlockMixin):
-    serializer_class = MedicineSerializer
-    queryset = Medicine.objects.all()
-    http_method_names = ["get", "post", "delete", "put"]
-
-    def get_queryset(self):
-        return Medicine.objects.filter(flock=self.kwargs.get("flock_id"))
 
 
 class FeedViewSet(ModelViewSet, FlockMixin):
@@ -196,3 +192,53 @@ class ProfitAndLossApiView(APIView):
                 "profit_loss_percent": round(profit_loss_percent, 2),
             }
         )
+
+
+class MedicineViewSet(ModelViewSet):
+    serializer_class = MedicineSerializer
+    queryset = Medicine.objects.all()
+
+    def get_queryset(self):
+        if self.action == "list":
+            return Medicine.objects.filter(farm=self.kwargs.get("farm_id"))
+        else:
+            return self.queryset
+
+    def perform_create(self, serializer):
+        serializer.save(
+            farm_id=self.kwargs.get("farm_id"), company=self.request.user.company
+        )
+
+
+class MedicineUsageView(ModelViewSet, FlockMixin):
+    serializer_class = MedicineUsageSerializer
+    queryset = MedicineUsage.objects.all()
+
+    def get_queryset(self):
+        if self.action == "list":
+            return MedicineUsage.objects.filter(flock=self.kwargs.get("flock_id"))
+        else:
+            return self.queryset
+
+
+class MedicineMoveView(GenericAPIView):
+    serializer_class = MedicineMoveSerializer
+
+    @transaction.atomic
+    def post(self, request):
+        ser = self.serializer_class(data=request.data)
+        ser.is_valid(raise_exception=True)
+        medicine = Medicine.objects.get(id=request.data.get("medicine"))
+        medicine.closing_stock = medicine.closing_stock - request.data.get("quantity")
+        medicine.moved = medicine.moved + request.data.get("quantity")
+        medicine.save()
+        Medicine.objects.create(
+            name=medicine.get("name"),
+            packing=medicine.get("packing"),
+            recieving=request.data.get("quantity"),
+            description=f"This medicine was moved from {medicine.farm.name}",
+            usage=[],
+            farm=request.data.get("farm"),
+            company=request.user.company,
+        )
+        return Response()

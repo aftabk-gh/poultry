@@ -28,21 +28,6 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     flocksFarmExpenseDelete: {
       invalidatesTags: ["FarmExpense", "ProfitAndLoss"],
     },
-    flocksMedicneRead: {
-      providesTags: ["Medicine"],
-    },
-    flocksMedicneList: {
-      providesTags: ["Medicine"],
-    },
-    flocksMedicneCreate: {
-      invalidatesTags: ["Medicine", "ProfitAndLoss"],
-    },
-    flocksMedicneUpdate: {
-      invalidatesTags: ["Medicine", "ProfitAndLoss"],
-    },
-    flocksMedicneDelete: {
-      invalidatesTags: ["Medicine", "ProfitAndLoss"],
-    },
     flocksFeedRead: {
       providesTags: ["Feed"],
     },
@@ -126,6 +111,30 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     },
     farmsFlocksCreate: {
       invalidatesTags: ["Flock"],
+    },
+    flocksMedicinesList: {
+      providesTags: ["Medicine"],
+    },
+    flocksMedicinesCreate: {
+      invalidatesTags: ["Medicine"],
+    },
+    farmsMedicineList: {
+      providesTags: ["Medicine"],
+    },
+    farmsMedicineCreate: {
+      invalidatesTags: ["Medicine"],
+    },
+    medicineDelete: {
+      invalidatesTags: ["Medicine"],
+    },
+    medicineUpdate: {
+      invalidatesTags: ["Medicine"],
+    },
+    medicineUsageDelete: {
+      invalidatesTags: ["Medicine"],
+    },
+    medicineUsageUpdate: {
+      invalidatesTags: ["Medicine"],
     },
     flocksUpdate: {
       invalidatesTags: ["Flock"],

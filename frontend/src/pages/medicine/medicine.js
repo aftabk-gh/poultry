@@ -4,37 +4,67 @@ import * as Yup from "yup";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
-import { useFlocksMedicneListQuery } from "@src/store/api";
 import { useNavigate, useParams } from "react-router-dom";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
+import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
 import AddIcon from "@mui/icons-material/Add";
+import CallMadeIcon from "@mui/icons-material/CallMade";
 import MedicineModal from "@src/components/shared/popups/medicineModal/medicineModal";
+import MedicineMoveModal from "@src/components/shared/popups/medicineMoveModal/medicineMoveModal";
+import DeleteModal from "@src/components/shared/popups/deleteModal/deleteModal";
+import {
+  useFarmsMedicineListQuery,
+  useMedicineDeleteMutation,
+} from "@src/store/api";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
+import { toast } from "react-toastify";
 
 const Medicine = () => {
   const [action, setAction] = useState("add");
   const [rowCellId, setRowCellId] = useState();
-  const { id } = useParams();
+  const params = useParams();
   const [openModal, setOpenModal] = useState(false);
+  const [deleteMedicine] = useMedicineDeleteMutation();
+  const [openMoveModal, setOpenMoveModal] = useState(false);
   const [pageSize, setPageSize] = useState(10);
-  const { data: rows = [], isLoading } = useFlocksMedicneListQuery(
-    {
-      flockId: id,
-    },
-    {
-      skip: !id,
-    }
-  );
+  const { data: rows = [], isLoading } = useFarmsMedicineListQuery({
+    farmId: params?.farmId,
+  });
   const [medicineData, setMedicineData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);
 
   const handleModalOpen = () => {
     setOpenModal(true);
   };
+  const handleMoveModalOpen = (id) => {
+    setOpenMoveModal(true);
+  };
 
   const handleModalClose = () => {
     setRowCellId(undefined);
     setAction("add");
     setOpenModal(false);
+  };
+  const handleMoveModalClose = () => {
+    setRowCellId(undefined);
+    setOpenMoveModal(false);
+  };
+
+  const handleMedicineDelete = async () => {
+    await deleteMedicine({
+      id: rowCellId,
+    })
+      .unwrap()
+      .then(async () => {
+        toast.success("Medicine deleted successfully", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        handleDeleteModalClose();
+      })
+      .catch((error) => {
+        toastAPIError("Something went wrong.", error.status, error.data);
+      });
   };
 
   const handleEditModalOpen = (event, cellId) => {
@@ -43,20 +73,31 @@ const Medicine = () => {
     setRowCellId(cellId);
     setOpenModal(true);
   };
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleDeleteModalClose = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleDeleteModalOpen = (event, cellId) => {
+    event.stopPropagation();
+    setRowCellId(cellId);
+    setOpenDeleteModal(true);
+  };
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      sortable: false,
-      width: 100,
-      renderCell: (cellValues) => {
-        return (
-          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.id}
-          </p>
-        );
-      },
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   sortable: false,
+    //   width: 100,
+    //   renderCell: (cellValues) => {
+    //     return (
+    //       <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
+    //         {cellValues.row.id}
+    //       </p>
+    //     );
+    //   },
+    // },
     {
       field: "name",
       headerName: "Name",
@@ -175,6 +216,19 @@ const Medicine = () => {
       },
     },
     {
+      field: "description",
+      headerName: "Description",
+      sortable: false,
+      width: 200,
+      renderCell: (cellValues) => {
+        return (
+          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
+            {cellValues.row.description}
+          </p>
+        );
+      },
+    },
+    {
       field: "actions",
       headerName: "Actions",
       width: 300,
@@ -192,16 +246,30 @@ const Medicine = () => {
             >
               <img className="profile-pic" src={ShowIcon} alt="editIcon" />
             </IconButton>
-            {/* <IconButton
-              //   onClick={(event) =>
-              //     handleDeleteModalOpen(event, cellValues.row.id)
-              //   }
+            <IconButton
+              onClick={(event) => handleMoveModalOpen(event, cellValues.row.id)}
+              aria-label="delete"
+              id="delete-btn-id"
+              className="delete-btn"
+            >
+              <CallMadeIcon
+                className="profile-pic"
+                style={{
+                  color: "black",
+                  fontSize: 18,
+                }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={(event) =>
+                handleDeleteModalOpen(event, cellValues.row.id)
+              }
               aria-label="delete"
               id="delete-btn-id"
               className="delete-btn"
             >
               <img className="profile-pic" src={DeleteIcon} alt="deleteIcon" />
-            </IconButton> */}
+            </IconButton>
           </Box>
         );
       },
@@ -357,6 +425,16 @@ const Medicine = () => {
         action={action}
         open={openModal}
         handleClose={handleModalClose}
+      />
+      <MedicineMoveModal
+        medicineId={rowCellId}
+        open={openMoveModal}
+        handleClose={handleMoveModalClose}
+      />
+      <DeleteModal
+        open={openDeleteModal}
+        handleObjDelete={handleMedicineDelete}
+        handleClose={handleDeleteModalClose}
       />
     </Box>
   );

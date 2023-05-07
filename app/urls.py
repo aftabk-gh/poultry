@@ -14,11 +14,12 @@ from app.views import (
     OtherIncomeViewSet,
     ProfitAndLossApiView,
     MeApiView,
+    MedicineMoveView,
+    MedicineUsageView,
 )
 
 router = routers.DefaultRouter()
 router.register(r"farm_expense", FarmExpenseViewSet, basename="farm_expense")
-router.register(r"medicne", MedicineViewSet, basename="medicne")
 router.register(r"feed", FeedViewSet, basename="feed")
 router.register(r"sale", SaleViewSet, basename="sale")
 router.register(r"other_income", OtherIncomeViewSet, basename="other_income")
@@ -42,6 +43,27 @@ urlpatterns = [
         "flocks/<int:pk>/",
         FlockViewSet.as_view({"get": "retrieve", "put": "update", "delete": "destroy"}),
     ),
+    path(
+        "farms/<int:farm_id>/medicine/",
+        MedicineViewSet.as_view({"get": "list", "post": "create"}),
+    ),
+    path(
+        "medicine/<int:pk>/",
+        MedicineViewSet.as_view(
+            {"get": "retrieve", "put": "update", "delete": "destroy"}
+        ),
+    ),
+    path(
+        "flocks/<int:flock_id>/medicines/",
+        MedicineUsageView.as_view({"get": "list", "post": "create"}),
+    ),
+    path(
+        "medicine_usage/<int:pk>/",
+        MedicineUsageView.as_view(
+            {"get": "retrieve", "put": "update", "delete": "destroy"}
+        ),
+    ),
+    path("medicine/move/", MedicineMoveView.as_view()),
     path("flocks/<int:flock_id>/", include(router.urls)),
     path(
         "flocks/<int:flock_id>/profit_and_loss/",

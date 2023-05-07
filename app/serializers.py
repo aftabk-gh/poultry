@@ -6,6 +6,8 @@ from rest_framework.serializers import (
     EmailField,
     CharField,
     ValidationError,
+    PrimaryKeyRelatedField,
+    IntegerField,
 )
 from app.models import (
     Farm,
@@ -18,6 +20,7 @@ from app.models import (
     OtherExpense,
     Comapny,
     User,
+    MedicineUsage,
 )
 
 
@@ -133,7 +136,7 @@ class ExpenseSerializer(ModelSerializer):
 class MedicineSerializer(ModelSerializer):
     class Meta:
         model = Medicine
-        exclude = ["company", "flock"]
+        exclude = ["company", "farm"]
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -142,6 +145,24 @@ class MedicineSerializer(ModelSerializer):
         data["closing_stock"] = instance.closing_stock
         data["qty_used"] = instance.qty_used
         return data
+
+
+class MedicineUsageSerializer(ModelSerializer):
+    class Meta:
+        model = MedicineUsage
+        exclude = ["company", "flock"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["medicine"] = {
+            "id": instance.medicine.id,
+            "name": instance.medicine.name,
+        }
+        return data
+
+
+class FlockMedicineSerializer(Serializer):
+    medicines = MedicineUsageSerializer()
 
 
 class FeedSerializer(ModelSerializer):
@@ -187,3 +208,19 @@ class OtherExpenseSerializer(ModelSerializer):
         data = super().to_representation(instance)
         data["vlaue_percentage"] = instance.vlaue_percentage
         return data
+
+
+class MedicineMoveSerializer(Serializer):
+    medicine = PrimaryKeyRelatedField(queryset=Medicine.objects.all())
+    farm = PrimaryKeyRelatedField(queryset=Farm.objects.all())
+    quantity = IntegerField()
+
+    def validate(self, attrs):
+        medicine = attrs.get("medicine")
+        quantity = attrs.get("quantity")
+
+        if Medicine.objects.get(id=medicine.id).closing_stock < quantity:
+            msg = {"error": "Please move medicine less then stock."}
+            raise ValidationError(msg)
+
+        return attrs

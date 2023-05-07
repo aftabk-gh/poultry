@@ -13,6 +13,7 @@ import Feed from "../feed/feed";
 import Staff from "../staff/staff";
 import Capital from "../capital/capital";
 import ProfitAndLoss from "../profitAndLoss/profitAndLoss";
+import FlockMedicine from "../medicine/flockMedicine";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -81,7 +82,7 @@ export default function FlockDetail() {
         <CashBook />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Medicine />
+        <FlockMedicine />
       </TabPanel>
       <TabPanel value={value} index={3}>
         <Feed />

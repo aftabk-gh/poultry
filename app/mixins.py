@@ -11,7 +11,11 @@ class CompanyMixin(CreateModelMixin, ListModelMixin):
 
 class FlockMixin(CreateModelMixin, ListModelMixin):
     def get_queryset(self):
-        return self.queryset.filter(flock=self.kwargs.get("flock_id"))
+        qs = self.queryset.filter(flock_id=self.kwargs.get("flock_id"))
+        import pdb
+
+        pdb.set_trace()
+        return qs
 
     def perform_create(self, serializer):
         serializer.save(

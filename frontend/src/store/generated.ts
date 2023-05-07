@@ -27,6 +27,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.flock,
       }),
     }),
+    farmsMedicineList: build.query<
+      FarmsMedicineListApiResponse,
+      FarmsMedicineListApiArg
+    >({
+      query: (queryArg) => ({ url: `/farms/${queryArg.farmId}/medicine/` }),
+    }),
+    farmsMedicineCreate: build.mutation<
+      FarmsMedicineCreateApiResponse,
+      FarmsMedicineCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/farms/${queryArg.farmId}/medicine/`,
+        method: "POST",
+        body: queryArg.medicine,
+      }),
+    }),
     farmsRead: build.query<FarmsReadApiResponse, FarmsReadApiArg>({
       query: (queryArg) => ({ url: `/farms/${queryArg.id}/` }),
     }),
@@ -138,49 +154,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/flocks/${queryArg.flockId}/feed/${queryArg.id}/`,
-        method: "DELETE",
-      }),
-    }),
-    flocksMedicneList: build.query<
-      FlocksMedicneListApiResponse,
-      FlocksMedicneListApiArg
-    >({
-      query: (queryArg) => ({ url: `/flocks/${queryArg.flockId}/medicne/` }),
-    }),
-    flocksMedicneCreate: build.mutation<
-      FlocksMedicneCreateApiResponse,
-      FlocksMedicneCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/flocks/${queryArg.flockId}/medicne/`,
-        method: "POST",
-        body: queryArg.medicine,
-      }),
-    }),
-    flocksMedicneRead: build.query<
-      FlocksMedicneReadApiResponse,
-      FlocksMedicneReadApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/flocks/${queryArg.flockId}/medicne/${queryArg.id}/`,
-      }),
-    }),
-    flocksMedicneUpdate: build.mutation<
-      FlocksMedicneUpdateApiResponse,
-      FlocksMedicneUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/flocks/${queryArg.flockId}/medicne/${queryArg.id}/`,
-        method: "PUT",
-        body: queryArg.medicine,
-      }),
-    }),
-    flocksMedicneDelete: build.mutation<
-      FlocksMedicneDeleteApiResponse,
-      FlocksMedicneDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/flocks/${queryArg.flockId}/medicne/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -341,6 +314,22 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    flocksMedicinesList: build.query<
+      FlocksMedicinesListApiResponse,
+      FlocksMedicinesListApiArg
+    >({
+      query: (queryArg) => ({ url: `/flocks/${queryArg.id}/medicines/` }),
+    }),
+    flocksMedicinesCreate: build.mutation<
+      FlocksMedicinesCreateApiResponse,
+      FlocksMedicinesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/flocks/${queryArg.id}/medicines/`,
+        method: "POST",
+        body: queryArg.medicineUsage,
+      }),
+    }),
     loginCreate: build.mutation<LoginCreateApiResponse, LoginCreateApiArg>({
       query: (queryArg) => ({
         url: `/login/`,
@@ -350,6 +339,63 @@ const injectedRtkApi = api.injectEndpoints({
     }),
     meRead: build.query<MeReadApiResponse, MeReadApiArg>({
       query: () => ({ url: `/me/` }),
+    }),
+    medicineMoveCreate: build.mutation<
+      MedicineMoveCreateApiResponse,
+      MedicineMoveCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/medicine/move/`,
+        method: "POST",
+        body: queryArg.medicineMove,
+      }),
+    }),
+    medicineRead: build.query<MedicineReadApiResponse, MedicineReadApiArg>({
+      query: (queryArg) => ({ url: `/medicine/${queryArg.id}/` }),
+    }),
+    medicineUpdate: build.mutation<
+      MedicineUpdateApiResponse,
+      MedicineUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/medicine/${queryArg.id}/`,
+        method: "PUT",
+        body: queryArg.medicine,
+      }),
+    }),
+    medicineDelete: build.mutation<
+      MedicineDeleteApiResponse,
+      MedicineDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/medicine/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
+    medicineUsageRead: build.query<
+      MedicineUsageReadApiResponse,
+      MedicineUsageReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/medicine_usage/${queryArg.id}/` }),
+    }),
+    medicineUsageUpdate: build.mutation<
+      MedicineUsageUpdateApiResponse,
+      MedicineUsageUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/medicine_usage/${queryArg.id}/`,
+        method: "PUT",
+        body: queryArg.medicineUsage,
+      }),
+    }),
+    medicineUsageDelete: build.mutation<
+      MedicineUsageDeleteApiResponse,
+      MedicineUsageDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/medicine_usage/${queryArg.id}/`,
+        method: "DELETE",
+      }),
     }),
     signupCreate: build.mutation<SignupCreateApiResponse, SignupCreateApiArg>({
       query: (queryArg) => ({
@@ -376,6 +422,15 @@ export type FarmsFlocksCreateApiResponse = /** status 201  */ Flock;
 export type FarmsFlocksCreateApiArg = {
   farmId: string;
   flock: Flock;
+};
+export type FarmsMedicineListApiResponse = /** status 200  */ Medicine[];
+export type FarmsMedicineListApiArg = {
+  farmId: string;
+};
+export type FarmsMedicineCreateApiResponse = /** status 201  */ Medicine;
+export type FarmsMedicineCreateApiArg = {
+  farmId: string;
+  medicine: Medicine;
 };
 export type FarmsReadApiResponse = /** status 200  */ Farm;
 export type FarmsReadApiArg = {
@@ -455,34 +510,6 @@ export type FlocksFeedDeleteApiResponse = unknown;
 export type FlocksFeedDeleteApiArg = {
   flockId: string;
   /** A unique integer value identifying this feed. */
-  id: number;
-};
-export type FlocksMedicneListApiResponse = /** status 200  */ Medicine[];
-export type FlocksMedicneListApiArg = {
-  flockId: string;
-};
-export type FlocksMedicneCreateApiResponse = /** status 201  */ Medicine;
-export type FlocksMedicneCreateApiArg = {
-  flockId: string;
-  medicine: Medicine;
-};
-export type FlocksMedicneReadApiResponse = /** status 200  */ Medicine;
-export type FlocksMedicneReadApiArg = {
-  flockId: string;
-  /** A unique integer value identifying this medicine. */
-  id: number;
-};
-export type FlocksMedicneUpdateApiResponse = /** status 200  */ Medicine;
-export type FlocksMedicneUpdateApiArg = {
-  flockId: string;
-  /** A unique integer value identifying this medicine. */
-  id: number;
-  medicine: Medicine;
-};
-export type FlocksMedicneDeleteApiResponse = unknown;
-export type FlocksMedicneDeleteApiArg = {
-  flockId: string;
-  /** A unique integer value identifying this medicine. */
   id: number;
 };
 export type FlocksOtherExpenseListApiResponse =
@@ -592,12 +619,59 @@ export type FlocksDeleteApiArg = {
   /** A unique integer value identifying this flock. */
   id: number;
 };
+export type FlocksMedicinesListApiResponse = /** status 200  */ MedicineUsage[];
+export type FlocksMedicinesListApiArg = {
+  /** A unique integer value identifying this medicine usage. */
+  id: number;
+};
+export type FlocksMedicinesCreateApiResponse = /** status 201  */ MedicineUsage;
+export type FlocksMedicinesCreateApiArg = {
+  /** A unique integer value identifying this medicine usage. */
+  id: number;
+  medicineUsage: MedicineUsage;
+};
 export type LoginCreateApiResponse = /** status 201  */ Login;
 export type LoginCreateApiArg = {
   login: Login;
 };
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
+export type MedicineMoveCreateApiResponse = /** status 201  */ MedicineMove;
+export type MedicineMoveCreateApiArg = {
+  medicineMove: MedicineMove;
+};
+export type MedicineReadApiResponse = /** status 200  */ Medicine;
+export type MedicineReadApiArg = {
+  /** A unique integer value identifying this medicine. */
+  id: number;
+};
+export type MedicineUpdateApiResponse = /** status 200  */ Medicine;
+export type MedicineUpdateApiArg = {
+  /** A unique integer value identifying this medicine. */
+  id: number;
+  medicine: Medicine;
+};
+export type MedicineDeleteApiResponse = unknown;
+export type MedicineDeleteApiArg = {
+  /** A unique integer value identifying this medicine. */
+  id: number;
+};
+export type MedicineUsageReadApiResponse = /** status 200  */ MedicineUsage;
+export type MedicineUsageReadApiArg = {
+  /** A unique integer value identifying this medicine usage. */
+  id: number;
+};
+export type MedicineUsageUpdateApiResponse = /** status 200  */ MedicineUsage;
+export type MedicineUsageUpdateApiArg = {
+  /** A unique integer value identifying this medicine usage. */
+  id: number;
+  medicineUsage: MedicineUsage;
+};
+export type MedicineUsageDeleteApiResponse = unknown;
+export type MedicineUsageDeleteApiArg = {
+  /** A unique integer value identifying this medicine usage. */
+  id: number;
+};
 export type SignupCreateApiResponse = /** status 201  */ SignUp;
 export type SignupCreateApiArg = {
   signUp: SignUp;
@@ -621,6 +695,18 @@ export type Flock = {
   created_at?: string;
   updated_at?: string;
 };
+export type Medicine = {
+  id?: number;
+  name: string;
+  packing: string;
+  opening?: number | null;
+  recieving?: number | null;
+  description?: string | null;
+  moved?: number | null;
+  rate?: number | null;
+  created_at?: string;
+  updated_at?: string;
+};
 export type Expense = {
   id?: number;
   from_date: string;
@@ -638,17 +724,6 @@ export type Feed = {
   discount: number;
   cr?: number | null;
   comments?: string | null;
-  created_at?: string;
-  updated_at?: string;
-};
-export type Medicine = {
-  id?: number;
-  name: string;
-  packing: string;
-  opening?: number | null;
-  recieving?: number | null;
-  usage?: object;
-  rate?: number | null;
   created_at?: string;
   updated_at?: string;
 };
@@ -676,6 +751,14 @@ export type Sale = {
   created_at?: string;
   updated_at?: string;
 };
+export type MedicineUsage = {
+  id?: number;
+  date: string;
+  quantity: number;
+  created_at?: string;
+  updated_at?: string;
+  medicine: number;
+};
 export type Login = {
   email: string;
   password: string;
@@ -687,6 +770,11 @@ export type Me = {
   email: string;
   company?: number | null;
   is_superuser?: boolean;
+};
+export type MedicineMove = {
+  medicine: number;
+  farm: number;
+  quantity: number;
 };
 export type Company = {
   id?: number;
@@ -708,6 +796,8 @@ export const {
   useFarmsCreateMutation,
   useFarmsFlocksListQuery,
   useFarmsFlocksCreateMutation,
+  useFarmsMedicineListQuery,
+  useFarmsMedicineCreateMutation,
   useFarmsReadQuery,
   useFarmsUpdateMutation,
   useFarmsDeleteMutation,
@@ -722,11 +812,6 @@ export const {
   useFlocksFeedReadQuery,
   useFlocksFeedUpdateMutation,
   useFlocksFeedDeleteMutation,
-  useFlocksMedicneListQuery,
-  useFlocksMedicneCreateMutation,
-  useFlocksMedicneReadQuery,
-  useFlocksMedicneUpdateMutation,
-  useFlocksMedicneDeleteMutation,
   useFlocksOtherExpenseListQuery,
   useFlocksOtherExpenseCreateMutation,
   useFlocksOtherExpenseReadQuery,
@@ -746,7 +831,16 @@ export const {
   useFlocksReadQuery,
   useFlocksUpdateMutation,
   useFlocksDeleteMutation,
+  useFlocksMedicinesListQuery,
+  useFlocksMedicinesCreateMutation,
   useLoginCreateMutation,
   useMeReadQuery,
+  useMedicineMoveCreateMutation,
+  useMedicineReadQuery,
+  useMedicineUpdateMutation,
+  useMedicineDeleteMutation,
+  useMedicineUsageReadQuery,
+  useMedicineUsageUpdateMutation,
+  useMedicineUsageDeleteMutation,
   useSignupCreateMutation,
 } = injectedRtkApi;
