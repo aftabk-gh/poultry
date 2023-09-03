@@ -34,9 +34,16 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "localhost",
+    "http://127.0.0.1",
+    "http://13.126.130.210",
+]
+
+
 CORS_ALLOWED_ORIGINS = [
     "localhost",
-    "http://127.0.0.1:8000/",
+    "http://127.0.0.1",
     "http://13.126.130.210",
 ]
 
