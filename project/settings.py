@@ -34,6 +34,12 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+CORS_ALLOWED_ORIGINS = [
+    "localhost",
+    "http://127.0.0.1:8000/",
+    "http://13.126.130.210",
+]
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -42,7 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # interna,
+    # internal,
     "app",
     # third_party
     "webpack_loader",
