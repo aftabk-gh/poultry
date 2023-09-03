@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
-from django.db.models import Sum, F
 
 
 class User(AbstractUser):
@@ -89,11 +88,11 @@ class Flock(models.Model):
         for exp in FarmExpense.objects.filter(flock=self):
             total_farm_exp += exp.total
         total_medicine_exp = 0
-        for med in Medicine.objects.filter(flock=self):
-            total_medicine_exp += med.amount
+        for med in MedicineUsage.objects.filter(flock=self):
+            total_medicine_exp += med.total
         total_feed_exp = 0
-        for feed in Feed.objects.filter(flock=self):
-            total_feed_exp += feed.dr
+        # for feed in Feed.objects.filter(flock=self):
+        #     total_feed_exp += feed.dr
         total_exp = total_farm_exp + total_medicine_exp + total_feed_exp + other_exp
         return total_exp
 
@@ -140,41 +139,29 @@ class FarmExpense(models.Model):
 class Medicine(models.Model):
     name = models.CharField(max_length=255)
     packing = models.CharField(max_length=255)
-    opening = models.IntegerField(null=True, blank=True)
-    recieving = models.IntegerField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    moved = models.IntegerField(null=True, blank=True)
-    rate = models.IntegerField(null=True, blank=True)
+    opening = models.IntegerField(default=0)
+    recieving = models.IntegerField(default=0)
+    description = models.TextField(default="")
+    moved = models.IntegerField(default=0)
+    rate = models.IntegerField(default=0)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     company = models.ForeignKey(Comapny, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} - {self.farm.name}"
 
     @property
     def total(self):
-        if self.opening is None:
-            self.opening = 0
-        if self.recieving is None:
-            self.recieving = 0
-        return self.opening + self.recieving
+        return self.opening + self.recieving - self.moved
 
     @property
     def amount(self):
-        if self.rate is None:
-            self.rate = 0
-        if self.qty_used is None:
-            self.qty_used = 0
         return self.rate * self.qty_used
 
     @property
     def closing_stock(self):
-        if self.total is None:
-            self.total = 0
-        if self.qty_used is None:
-            self.qty_used = 0
         return self.total - self.qty_used
 
     @property
@@ -202,23 +189,27 @@ class MedicineUsage(models.Model):
     def __str__(self) -> str:
         return f"{self.medicine}-{str(self.date)}"
 
+    @property
+    def total(self):
+        return self.quantity * self.medicine.rate
+
 
 class Feed(models.Model):
     date = models.DateField()
     feed_type = models.CharField(max_length=255)
-    company = models.CharField(max_length=255)
     bags = models.PositiveIntegerField()
     rate = models.PositiveIntegerField()
+    moved = models.IntegerField(default=0)
     discount = models.FloatField()
-    cr = models.PositiveIntegerField(null=True, blank=True)
+    cr = models.PositiveIntegerField(default=0)
     comments = models.TextField(null=True, blank=True)
-    flock = models.ForeignKey(Flock, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     company = models.ForeignKey(Comapny, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.feed_type
+        return f"{self.feed_type} - {self.farm.name}"
 
     @property
     def dr(self):
@@ -230,8 +221,6 @@ class Feed(models.Model):
 
     @property
     def balance(self):
-        if self.cr is None:
-            self.cr = 0
         return self.dr - self.cr
 
 

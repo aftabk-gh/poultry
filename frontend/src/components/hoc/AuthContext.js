@@ -4,14 +4,16 @@ import { useMeReadQuery } from "@src/store/api";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const { isFetching, isSuccess, data: userData } = useMeReadQuery();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isLoading, isSuccess, data: userData } = useMeReadQuery();
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    isSuccess && setIsAuthenticated(true);
-  }, [isFetching]);
+    if (!isLoading) {
+      isSuccess ? setIsAuthenticated(true) : setIsAuthenticated(false);
+    }
+  }, [isLoading]);
 
-  if (isFetching) return <p>Loading</p>;
+  if (isLoading) return <p>Loading</p>;
 
   return (
     <AuthContext.Provider

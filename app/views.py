@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.response import Response
+
 from app.serializers import (
     FarmSerializer,
     FlockSerializer,
@@ -22,7 +24,7 @@ from app.serializers import (
     MeSerializer,
     MedicineMoveSerializer,
     MedicineUsageSerializer,
-    FlockMedicineSerializer,
+    FeedMoveSerializer,
 )
 from app.models import (
     User,
@@ -36,7 +38,7 @@ from app.models import (
     OtherIncome,
     MedicineUsage,
 )
-from app.mixins import CompanyMixin, FlockMixin
+from app.mixins import CompanyMixin, FlockMixin, FarmMixinMixin
 
 
 class HomeView(TemplateView):
@@ -97,7 +99,9 @@ class FlockViewSet(ModelViewSet, CompanyMixin):
     queryset = Flock.objects.all()
 
     def get_queryset(self):
-        return Flock.objects.filter(farm=self.kwargs.get("farm_id"))
+        if self.action == "list":
+            return Flock.objects.filter(farm=self.kwargs.get("farm_id"))
+        return self.queryset
 
     def perform_create(self, serializer):
         serializer.save(
@@ -116,7 +120,58 @@ class FeedViewSet(ModelViewSet, FlockMixin):
     http_method_names = ["get", "post", "delete", "put"]
 
     def get_queryset(self):
-        return Feed.objects.filter(flock=self.kwargs.get("flock_id"))
+        if self.action == "list":
+            return Feed.objects.filter(farm=self.kwargs.get("farm_id"))
+        else:
+            return self.queryset
+
+    def get_serializer_class(self):
+        if self.action == "move":
+            return FeedMoveSerializer
+        return super().get_serializer_class()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            farm_id=self.kwargs.get("farm_id"), company=self.request.user.company
+        )
+
+    @transaction.atomic()
+    def move(self, request, *args, **kwargs):
+        feed = self.get_object()
+        ser = FeedMoveSerializer(data=request.data, context={"feed": feed})
+        ser.is_valid(raise_exception=True)
+        feed.moved = feed.moved + request.data.get("bags")
+        feed.bags = feed.bags - request.data.get("bags")
+        feed.save()
+        # try:
+        #     existing_feed = Feed.objects.get(id=feed.id)
+        #     existing_feed.bags = existing_feed.bags + request.data.get("bags")
+        #     existing_feed.save()
+        # except Feed.DoesNotExist:
+        #     Feed.objects.create(
+        #         date=feed.date,
+        #         feed_type=feed.feed_type,
+        #         rate=feed.rate,
+        #         discount=feed.discount,
+        #         cr=feed.cr,
+        #         bags=request.data.get("bags"),
+        #         comments=f"This feed was recieved from {feed.farm.name}",
+        #         farm_id=request.data.get("farm"),
+        #         company=request.user.company,
+        #     )
+        Feed.objects.create(
+            date=feed.date,
+            feed_type=feed.feed_type,
+            rate=feed.rate,
+            discount=feed.discount,
+            cr=feed.cr,
+            bags=request.data.get("bags"),
+            comments=f"This feed was recieved from {feed.farm.name}",
+            farm_id=request.data.get("farm"),
+            company=request.user.company,
+        )
+
+        return Response(status=status.HTTP_200_OK)
 
 
 class SaleViewSet(ModelViewSet, FlockMixin):
@@ -204,10 +259,43 @@ class MedicineViewSet(ModelViewSet):
         else:
             return self.queryset
 
+    def get_serializer_class(self):
+        if self.action == "move":
+            return MedicineMoveSerializer
+        return super().get_serializer_class()
+
     def perform_create(self, serializer):
         serializer.save(
             farm_id=self.kwargs.get("farm_id"), company=self.request.user.company
         )
+
+    @transaction.atomic()
+    def move(self, request, *args, **kwargs):
+        medicine = self.get_object()
+        ser = MedicineMoveSerializer(data=request.data, context={"medicine": medicine})
+        ser.is_valid(raise_exception=True)
+        medicine.moved = medicine.moved + request.data.get("quantity")
+        medicine.save()
+        try:
+            existing_medicine = Medicine.objects.get(
+                name=medicine.name, farm_id=request.data.get("farm")
+            )
+            existing_medicine.recieving = (
+                existing_medicine.recieving + request.data.get("quantity")
+            )
+            existing_medicine.save()
+        except Medicine.DoesNotExist:
+            Medicine.objects.create(
+                name=medicine.name,
+                packing=medicine.packing,
+                rate=medicine.rate,
+                recieving=request.data.get("quantity"),
+                description=f"This medicine was recieved from {medicine.farm.name}",
+                farm_id=request.data.get("farm"),
+                company=request.user.company,
+            )
+
+        return Response(status=status.HTTP_200_OK)
 
 
 class MedicineUsageView(ModelViewSet, FlockMixin):
@@ -219,26 +307,3 @@ class MedicineUsageView(ModelViewSet, FlockMixin):
             return MedicineUsage.objects.filter(flock=self.kwargs.get("flock_id"))
         else:
             return self.queryset
-
-
-class MedicineMoveView(GenericAPIView):
-    serializer_class = MedicineMoveSerializer
-
-    @transaction.atomic
-    def post(self, request):
-        ser = self.serializer_class(data=request.data)
-        ser.is_valid(raise_exception=True)
-        medicine = Medicine.objects.get(id=request.data.get("medicine"))
-        medicine.closing_stock = medicine.closing_stock - request.data.get("quantity")
-        medicine.moved = medicine.moved + request.data.get("quantity")
-        medicine.save()
-        Medicine.objects.create(
-            name=medicine.get("name"),
-            packing=medicine.get("packing"),
-            recieving=request.data.get("quantity"),
-            description=f"This medicine was moved from {medicine.farm.name}",
-            usage=[],
-            farm=request.data.get("farm"),
-            company=request.user.company,
-        )
-        return Response()

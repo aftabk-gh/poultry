@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useFlocksFeedListQuery } from "@src/store/api";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
 import AddIcon from "@mui/icons-material/Add";
-import MedicineModal from "@src/components/shared/popups/medicineModal/medicineModal";
+import CallMadeIcon from "@mui/icons-material/CallMade";
+import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
 import FeedModal from "@src/components/shared/popups/feedModal/feedModal";
 import { useParams } from "react-router-dom";
+import FeedMoveModal from "@src/components/shared/popups/feedMovelModal/feedMoveModal";
+import DeleteModal from "@src/components/shared/popups/deleteModal/deleteModal";
+import { useFarmsFeedListQuery, useFeedDeleteMutation } from "@src/store/api";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
+import { toast } from "react-toastify";
 
 const Feed = () => {
   const [action, setAction] = useState("add");
   const [rowCellId, setRowCellId] = useState();
-  const { id } = useParams();
+  const { farmId } = useParams();
   const [openModal, setOpenModal] = useState(false);
+  const [openMoveModal, setOpenMoveModal] = useState(false);
   const [pageSize, setPageSize] = useState(10);
-  const { data: rows = [], isLoading } = useFlocksFeedListQuery(
+  const [deleteFeed] = useFeedDeleteMutation();
+  const { data: rows = [], isLoading } = useFarmsFeedListQuery(
     {
-      flockId: id,
+      farmId: farmId,
     },
     {
-      skip: !id,
+      skip: !farmId,
     }
   );
   const [feedData, setFeedData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);
 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const handleModalOpen = () => {
     setOpenModal(true);
   };
@@ -41,20 +49,44 @@ const Feed = () => {
     setRowCellId(cellId);
     setOpenModal(true);
   };
+  const handleMoveModalOpen = (event, cellId) => {
+    setRowCellId(cellId);
+    setOpenMoveModal(true);
+  };
+
+  const handleMoveModalClose = () => {
+    setRowCellId(undefined);
+    setOpenMoveModal(false);
+  };
+
+  const handleDeleteModalClose = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleDeleteModalOpen = (event, cellId) => {
+    event.stopPropagation();
+    setRowCellId(cellId);
+    setOpenDeleteModal(true);
+  };
+
+  const handleFeedDelete = async () => {
+    await deleteFeed({
+      id: rowCellId,
+    })
+      .unwrap()
+      .then(async () => {
+        toast.success("Feed deleted successfully", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        handleDeleteModalClose();
+      })
+      .catch((error) => {
+        console.log("@", error);
+        toastAPIError("Something went wrong.", error.status, error.data);
+      });
+  };
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      sortable: false,
-      width: 100,
-      renderCell: (cellValues) => {
-        return (
-          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.id}
-          </p>
-        );
-      },
-    },
     {
       field: "date",
       headerName: "Date",
@@ -190,16 +222,30 @@ const Feed = () => {
             >
               <img className="profile-pic" src={ShowIcon} alt="editIcon" />
             </IconButton>
-            {/* <IconButton
-              //   onClick={(event) =>
-              //     handleDeleteModalOpen(event, cellValues.row.id)
-              //   }
+            <IconButton
+              onClick={(event) => handleMoveModalOpen(event, cellValues.row.id)}
+              aria-label="delete"
+              id="delete-btn-id"
+              className="delete-btn"
+            >
+              <CallMadeIcon
+                className="profile-pic"
+                style={{
+                  color: "black",
+                  fontSize: 18,
+                }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={(event) =>
+                handleDeleteModalOpen(event, cellValues.row.id)
+              }
               aria-label="delete"
               id="delete-btn-id"
               className="delete-btn"
             >
               <img className="profile-pic" src={DeleteIcon} alt="deleteIcon" />
-            </IconButton> */}
+            </IconButton>
           </Box>
         );
       },
@@ -251,7 +297,7 @@ const Feed = () => {
             onClick={handleModalOpen}
             startIcon={<AddIcon />}
           >
-            <p id="create-btn-text">{"Create"}</p>
+            <p id="create-btn-text">{"Add "}</p>
           </Button>
         </Box>
       </Box>
@@ -355,6 +401,16 @@ const Feed = () => {
         action={action}
         open={openModal}
         handleClose={handleModalClose}
+      />
+      <FeedMoveModal
+        feedId={rowCellId}
+        open={openMoveModal}
+        handleClose={handleMoveModalClose}
+      />
+      <DeleteModal
+        open={openDeleteModal}
+        handleObjDelete={handleFeedDelete}
+        handleClose={handleDeleteModalClose}
       />
     </Box>
   );

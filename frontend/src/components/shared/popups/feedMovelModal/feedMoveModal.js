@@ -23,30 +23,29 @@ import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
 import uploadIcon from "../../../../assets/svgs/plus.svg";
 
 import { intRegex, timeOut, toastAPIError } from "@src/helpers/utils/utils";
-import "./medicineModal.scss";
 import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
-import { useMedicineMoveMutation, useFarmsListQuery } from "@src/store/api";
+import { useFeedMoveMutation, useFarmsListQuery } from "@src/store/api";
 
-const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
+const FeedMoveModal = ({ open, handleClose, feedId }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [medicineMove, {}] = useMedicineMoveMutation();
+  const [feedMove, {}] = useFeedMoveMutation();
   const { data: farmsData = [] } = useFarmsListQuery();
 
-  const handleMedicineMove = async () => {
+  const handleFeedMove = async () => {
     setLoading(true);
-    await medicineMove({
-      id: medicineId,
-      medicineMove: {
+    await feedMove({
+      id: feedId,
+      feedMove: {
         farm: formik.values.farm,
-        quantity: formik.values.quantity,
+        bags: formik.values.bags,
       },
     })
       .unwrap()
       .then(async () => {
-        toast.success("Medicine moved successfully.", {
+        toast.success("Feed moved successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -62,15 +61,15 @@ const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
   const formik = useFormik({
     initialValues: {
       farm: "",
-      quantity: null || undefined,
+      bags: null || undefined,
     },
     validationSchema: Yup.object().shape({
       farm: Yup.string().required("Required"),
-      quantity: Yup.string().required("Required"),
+      bags: Yup.string().required("Required"),
     }),
     validateOnChange: true,
     onSubmit: () => {
-      handleMedicineMove();
+      handleFeedMove();
     },
   });
   const resetModal = () => {
@@ -85,10 +84,10 @@ const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
           <Box className="modal-header-cls">
             <Box className="heading-text-box">
               <Typography className="heading-text">
-                {"Move a medicine"}
+                {"Move a Feed"}
               </Typography>
               <Typography className="subheading-text">
-                {"Fill the following fields to move a medicine"}
+                {"Fill the following fields to move a feed"}
               </Typography>
             </Box>
             <Box className="cross-icon-box" onClick={resetModal}>
@@ -130,16 +129,16 @@ const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
                   className="text-field-cls"
                   fullWidth
                   type="number"
-                  label={"Quantity"}
-                  value={formik.values.quantity || ""}
-                  name="quantity"
+                  label={"Bags"}
+                  value={formik.values.bags || ""}
+                  name="bags"
                   onChange={formik.handleChange}
                   InputLabelProps={{
                     className: "textfield_label",
                   }}
                 />
                 <Typography className="errorText">
-                  {formik.touched.quantity && formik.errors.quantity}
+                  {formik.touched.bags && formik.errors.bags}
                 </Typography>
               </Grid>
             </Grid>
@@ -174,4 +173,4 @@ const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
   );
 };
 
-export default MedicineMoveModal;
+export default FeedMoveModal;

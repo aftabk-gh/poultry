@@ -13,7 +13,7 @@ import MedicineModal from "@src/components/shared/popups/medicineModal/medicineM
 import MedicineMoveModal from "@src/components/shared/popups/medicineMoveModal/medicineMoveModal";
 import DeleteModal from "@src/components/shared/popups/deleteModal/deleteModal";
 import {
-  useFarmsMedicineListQuery,
+  useFarmsMedicinesListQuery,
   useMedicineDeleteMutation,
 } from "@src/store/api";
 import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
@@ -27,7 +27,7 @@ const Medicine = () => {
   const [deleteMedicine] = useMedicineDeleteMutation();
   const [openMoveModal, setOpenMoveModal] = useState(false);
   const [pageSize, setPageSize] = useState(10);
-  const { data: rows = [], isLoading } = useFarmsMedicineListQuery({
+  const { data: rows = [], isLoading } = useFarmsMedicinesListQuery({
     farmId: params?.farmId,
   });
   const [medicineData, setMedicineData] = useState([]);
@@ -36,7 +36,8 @@ const Medicine = () => {
   const handleModalOpen = () => {
     setOpenModal(true);
   };
-  const handleMoveModalOpen = (id) => {
+  const handleMoveModalOpen = (event, cellId) => {
+    setRowCellId(cellId);
     setOpenMoveModal(true);
   };
 
@@ -146,6 +147,19 @@ const Medicine = () => {
         return (
           <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
             {cellValues.row.recieving}
+          </p>
+        );
+      },
+    },
+    {
+      field: "moved",
+      headerName: "Moved",
+      sortable: false,
+      width: 150,
+      renderCell: (cellValues) => {
+        return (
+          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
+            {cellValues.row.moved}
           </p>
         );
       },

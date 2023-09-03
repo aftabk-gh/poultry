@@ -24,7 +24,7 @@ import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import {
-  useFarmsMedicineCreateMutation,
+  useFarmsMedicinesCreateMutation,
   useMedicineUpdateMutation,
   useMedicineReadQuery,
 } from "@src/store/api";
@@ -32,7 +32,7 @@ import {
 const MedicineModal = ({ medicineId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [medicineCreate, {}] = useFarmsMedicineCreateMutation();
+  const [medicineCreate, {}] = useFarmsMedicinesCreateMutation();
   const [medicineUpdate, {}] = useMedicineUpdateMutation();
   const { data: medicineData } = useMedicineReadQuery(
     { id: medicineId },

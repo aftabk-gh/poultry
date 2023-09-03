@@ -16,6 +16,9 @@ const FarmDetail = () => {
       <Link className="link" to={`/farms/${params.id}/medicine/`}>
         {"View medicine"}
       </Link>
+      <Link className="link" to={`/farms/${params.id}/feed/`}>
+        {"View feed"}
+      </Link>
     </Box>
   );
 };

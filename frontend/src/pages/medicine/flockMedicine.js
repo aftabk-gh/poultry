@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
 import AddIcon from "@mui/icons-material/Add";
-import CallMadeIcon from "@mui/icons-material/CallMade";
 import FlockMedicineModal from "@src/components/shared/popups/medicineModal/flockMedicineModal";
 import {
   useFlocksMedicinesListQuery,
@@ -21,16 +17,31 @@ import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 const FlockMedicine = () => {
   const [action, setAction] = useState("add");
   const [rowCellId, setRowCellId] = useState();
-  const params = useParams();
+  const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
-  const [openMoveModal, setOpenMoveModal] = useState(false);
   const [deleteMedicine] = useMedicineUsageDeleteMutation();
   const [pageSize, setPageSize] = useState(10);
-  const { data: rows = [], isLoading } = useFlocksMedicinesListQuery({
-    id: params?.id,
-  });
+  const { data: rows = [], isLoading } = useFlocksMedicinesListQuery(
+    {
+      flockId: id,
+    },
+    {
+      skip: !id,
+    }
+  );
   const [medicineData, setMedicineData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);
+
+  // console.log(
+  //   "1111",
+  //   openDeleteModal,
+  //   action,
+  //   rowCellId,
+  //   openModal,
+  //   pageSize,
+  //   medicineData,
+  //   dataLoading
+  // );
 
   const handleMedicineDelete = async () => {
     await deleteMedicine({
@@ -52,18 +63,11 @@ const FlockMedicine = () => {
   const handleModalOpen = () => {
     setOpenModal(true);
   };
-  const handleMoveModalOpen = (id) => {
-    setOpenMoveModal(true);
-  };
 
   const handleModalClose = () => {
     setRowCellId(undefined);
     setAction("add");
     setOpenModal(false);
-  };
-  const handleMoveModalClose = () => {
-    setRowCellId(undefined);
-    setOpenMoveModal(false);
   };
 
   const handleEditModalOpen = (event, cellId) => {
@@ -180,13 +184,14 @@ const FlockMedicine = () => {
       setIsDataLoading(false);
     }
   }, [rows, isLoading]);
+
   return (
     <Box className="departmentDataGridTable-section">
       <Box
         className="top-bar-cls"
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Typography className="title-cls">{"Medicine"}</Typography>
+        <Typography className="title-cls">{"Medicine Usage"}</Typography>
         <Box
           className="filter-section"
           sx={{ display: "flex", justifyContent: "space-between" }}
@@ -216,7 +221,7 @@ const FlockMedicine = () => {
             onClick={handleModalOpen}
             startIcon={<AddIcon />}
           >
-            <p id="create-btn-text">{"Add Usage"}</p>
+            <p id="create-btn-text">{"Add "}</p>
           </Button>
         </Box>
       </Box>

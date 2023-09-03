@@ -4,11 +4,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useFlocksSaleListQuery } from "@src/store/api";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
 import AddIcon from "@mui/icons-material/Add";
-import FeedModal from "@src/components/shared/popups/feedModal/feedModal";
 import SaleModal from "@src/components/shared/popups/saleModal/saleModal";
 import { useParams } from "react-router-dom";
 
-const Feed = () => {
+const Sale = () => {
   const [action, setAction] = useState("add");
   const { id } = useParams();
   const [rowCellId, setRowCellId] = useState();
@@ -212,7 +211,7 @@ const Feed = () => {
             onClick={handleModalOpen}
             startIcon={<AddIcon />}
           >
-            <p id="create-btn-text">{"Create"}</p>
+            <p id="create-btn-text">{"Add "}</p>
           </Button>
         </Box>
       </Box>
@@ -321,4 +320,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default Sale;

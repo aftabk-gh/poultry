@@ -137,6 +137,7 @@ class MedicineSerializer(ModelSerializer):
     class Meta:
         model = Medicine
         exclude = ["company", "farm"]
+        read_only_fields = ("moved",)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -145,6 +146,21 @@ class MedicineSerializer(ModelSerializer):
         data["closing_stock"] = instance.closing_stock
         data["qty_used"] = instance.qty_used
         return data
+
+
+class MedicineMoveSerializer(Serializer):
+    farm = PrimaryKeyRelatedField(queryset=Farm.objects.all())
+    quantity = IntegerField()
+
+    def validate(self, attrs):
+        medicine = self.context.get("medicine")
+        quantity = attrs.get("quantity")
+
+        if Medicine.objects.get(id=medicine.id).closing_stock < quantity:
+            msg = {"error": "Please move medicine less then stock."}
+            raise ValidationError(msg)
+
+        return attrs
 
 
 class MedicineUsageSerializer(ModelSerializer):
@@ -161,20 +177,32 @@ class MedicineUsageSerializer(ModelSerializer):
         return data
 
 
-class FlockMedicineSerializer(Serializer):
-    medicines = MedicineUsageSerializer()
-
-
 class FeedSerializer(ModelSerializer):
     class Meta:
         model = Feed
-        exclude = ["company", "flock"]
+        exclude = ["company", "farm"]
+        read_only_fields = ("moved",)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["balance"] = instance.balance
         data["dr"] = instance.dr
         return data
+
+
+class FeedMoveSerializer(Serializer):
+    farm = PrimaryKeyRelatedField(queryset=Farm.objects.all())
+    bags = IntegerField()
+
+    def validate(self, attrs):
+        feed = self.context.get("feed")
+        bags = attrs.get("bags")
+
+        if Feed.objects.get(id=feed.id).bags < bags:
+            msg = {"error": "Please move feed less then avaialable."}
+            raise ValidationError(msg)
+
+        return attrs
 
 
 class SaleSerializer(ModelSerializer):
@@ -208,19 +236,3 @@ class OtherExpenseSerializer(ModelSerializer):
         data = super().to_representation(instance)
         data["vlaue_percentage"] = instance.vlaue_percentage
         return data
-
-
-class MedicineMoveSerializer(Serializer):
-    medicine = PrimaryKeyRelatedField(queryset=Medicine.objects.all())
-    farm = PrimaryKeyRelatedField(queryset=Farm.objects.all())
-    quantity = IntegerField()
-
-    def validate(self, attrs):
-        medicine = attrs.get("medicine")
-        quantity = attrs.get("quantity")
-
-        if Medicine.objects.get(id=medicine.id).closing_stock < quantity:
-            msg = {"error": "Please move medicine less then stock."}
-            raise ValidationError(msg)
-
-        return attrs

@@ -47,19 +47,6 @@ function Flock() {
 
   const columns = [
     {
-      field: "id",
-      headerName: "ID",
-      sortable: false,
-      width: 100,
-      renderCell: (cellValues) => {
-        return (
-          <p style={{ marginLeft: "20px", textTransform: "capitalize" }}>
-            {cellValues.row.id}
-          </p>
-        );
-      },
-    },
-    {
       field: "no",
       headerName: "NO",
       sortable: false,

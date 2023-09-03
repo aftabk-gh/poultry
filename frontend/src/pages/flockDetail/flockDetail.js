@@ -54,7 +54,6 @@ export default function FlockDetail() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -66,8 +65,8 @@ export default function FlockDetail() {
         >
           <Tab label="Farm Expense" {...a11yProps(0)} />
           <Tab label="Cash Book" {...a11yProps(1)} />
-          <Tab label="Medicine" {...a11yProps(2)} />
-          <Tab label="Feed" {...a11yProps(3)} />
+          <Tab label="Medicine Usage" {...a11yProps(2)} />
+          {/* <Tab label="Feed" {...a11yProps(3)} /> */}
           <Tab label="Sale" {...a11yProps(4)} />
           <Tab label="Profit & Loss" {...a11yProps(5)} />
           <Tab label="Staff" {...a11yProps(6)} />
@@ -84,9 +83,9 @@ export default function FlockDetail() {
       <TabPanel value={value} index={2}>
         <FlockMedicine />
       </TabPanel>
-      <TabPanel value={value} index={3}>
+      {/* <TabPanel value={value} index={3}>
         <Feed />
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value={value} index={4}>
         <Sale />
       </TabPanel>

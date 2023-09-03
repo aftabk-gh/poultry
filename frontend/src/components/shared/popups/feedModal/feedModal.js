@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -11,39 +11,36 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
-import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import crossIcon from "../../../../assets/svgs/cross.svg";
 import submitIcon from "../../../../assets/svgs/Frame.svg";
-import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
-import uploadIcon from "../../../../assets/svgs/plus.svg";
 
-import { intRegex, timeOut, toastAPIError } from "@src/helpers/utils/utils";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import {
-  useFlocksFeedCreateMutation,
-  useFlocksFeedUpdateMutation,
-  useFlocksFeedReadQuery,
+  useFarmsFeedCreateMutation,
+  useFeedUpdateMutation,
+  useFeedReadQuery,
 } from "@src/store/api";
 
 const FeedModal = ({ feedId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const { id: flockId } = useParams();
-  const [feedCreate, {}] = useFlocksFeedCreateMutation();
-  const [feedUpdate, {}] = useFlocksFeedUpdateMutation();
-  const { data: feedData } = useFlocksFeedReadQuery(
-    { id: feedId, flockId },
+  const { farmId } = useParams();
+  const [feedCreate, {}] = useFarmsFeedCreateMutation();
+  const [feedUpdate, {}] = useFeedUpdateMutation();
+  const { data: feedData } = useFeedReadQuery(
+    { id: feedId },
     { skip: !feedId }
   );
 
   const handleFeedCreate = async () => {
     setLoading(true);
     await feedCreate({
-      flockId,
+      farmId,
       feed: {
-        flock: flockId,
         ...formik.values,
       },
     })
@@ -64,10 +61,8 @@ const FeedModal = ({ feedId, action, open, handleClose }) => {
   const handleFeedEdit = async () => {
     setLoading(true);
     await feedUpdate({
-      flockId,
       id: feedId,
       feed: {
-        flock: flockId,
         ...formik.values,
       },
     })

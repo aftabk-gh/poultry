@@ -50,7 +50,7 @@ const FarmExpenseModal = ({ farmExpenseId, action, open, handleClose }) => {
     })
       .unwrap()
       .then(async () => {
-        toast.success("Farm expense created successfully.", {
+        toast.success("Farm expense added successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });

@@ -12,6 +12,7 @@ import Login from "../../pages/login/login";
 import Signup from "../../pages/signUp/signUp";
 import ProtectedRoute from "./ProtectedRoute";
 import FarmDetail from "@src/pages/farms/farmDetail";
+import Feed from "@src/pages/feed/feed";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
         <Route path="/farms/:id" element={<FarmDetail />} />
         <Route path="/farms/:farmId/flocks" element={<Flock />} />
         <Route path="/farms/:farmId/medicine" element={<Medicine />} />
+        <Route path="/farms/:farmId/feed" element={<Feed />} />
         <Route path="/farms/:farmId/flocks/:id" element={<FlockDetail />} />
         <Route path="/layer" element={<Layer />} />
         <Route path="/medicine" element={<Medicine />} />

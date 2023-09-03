@@ -229,7 +229,7 @@ const FarmExpense = () => {
             onClick={handleModalOpen}
             startIcon={<AddIcon />}
           >
-            <p id="create-btn-text">{"Create"}</p>
+            <p id="create-btn-text">{"Add "}</p>
           </Button>
         </Box>
       </Box>

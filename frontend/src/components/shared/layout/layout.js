@@ -37,10 +37,8 @@ const Layout = () => {
         }}
       >
         <Toolbar />
-
         <main>
-          {" "}
-          <Outlet />{" "}
+          <Outlet />
         </main>
       </Box>
     </Box>

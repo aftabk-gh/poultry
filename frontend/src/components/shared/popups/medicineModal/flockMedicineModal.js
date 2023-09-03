@@ -31,7 +31,7 @@ import {
   useFlocksMedicinesCreateMutation,
   useMedicineUsageUpdateMutation,
   useMedicineUsageReadQuery,
-  useFarmsMedicineListQuery,
+  useFarmsMedicinesListQuery,
 } from "@src/store/api";
 
 const FlockMedicineModal = ({ medicineId, action, open, handleClose }) => {
@@ -39,7 +39,7 @@ const FlockMedicineModal = ({ medicineId, action, open, handleClose }) => {
   const { id, farmId } = useParams();
   const [medicineCreate, {}] = useFlocksMedicinesCreateMutation();
   const [medicineUpdate, {}] = useMedicineUsageUpdateMutation();
-  const { data: medicines, isLoading } = useFarmsMedicineListQuery(
+  const { data: medicines, isLoading } = useFarmsMedicinesListQuery(
     {
       farmId: farmId,
     },
@@ -55,7 +55,7 @@ const FlockMedicineModal = ({ medicineId, action, open, handleClose }) => {
   const handleMedicineCreate = async () => {
     setLoading(true);
     await medicineCreate({
-      id,
+      flockId: id,
       medicineUsage: {
         ...formik.values,
       },
