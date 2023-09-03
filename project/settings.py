@@ -91,17 +91,13 @@ DATABASES = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 if os.getenv("DB_URL"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "neondb",
-            "USER": "aa0140527",
-            "PASSWORD": os.getenv("DB_PASSWORD", ""),
-            "HOST": os.getenv("DB_URL", ""),
-            "PORT": "5432",
-        }
-    }
+    DATABASES["default"] = dj_database_url.parse(
+        os.getenv("DB_URL"),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -138,16 +134,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "frontend/dist/"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Enable WhiteNoise's GZip compression of static assets.
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = "media"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -177,3 +163,13 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
 }
+
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+STATICFILES_DIRS = [BASE_DIR / "frontend/dist/"]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
