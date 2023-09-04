@@ -19,7 +19,7 @@ const Sale = () => {
     },
     {
       skip: !id,
-    }
+    },
   );
   const [saleData, setSaleData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);

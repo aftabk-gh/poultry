@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("app", "0007_otherexpense_otherincome_rename_expense_farmexpense_and_more"),
     ]

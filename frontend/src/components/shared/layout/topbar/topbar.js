@@ -1,5 +1,6 @@
+import React from "react";
 import { Box, Typography, Divider } from "@mui/material";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import MuiAppBar from "@mui/material/AppBar";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";

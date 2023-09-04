@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -15,14 +15,12 @@ import {
   InputLabel,
   Select,
 } from "@mui/material";
-import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import crossIcon from "../../../../assets/svgs/cross.svg";
 import submitIcon from "../../../../assets/svgs/Frame.svg";
-import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
-import uploadIcon from "../../../../assets/svgs/plus.svg";
 
-import { intRegex, timeOut, toastAPIError } from "@src/helpers/utils/utils";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 import "./medicineModal.scss";
 import React from "react";
 import * as Yup from "yup";
@@ -32,7 +30,7 @@ import { useMedicineMoveMutation, useFarmsListQuery } from "@src/store/api";
 const MedicineMoveModal = ({ open, handleClose, medicineId }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [medicineMove, {}] = useMedicineMoveMutation();
+  const [medicineMove] = useMedicineMoveMutation();
   const { data: farmsData = [] } = useFarmsListQuery();
 
   const handleMedicineMove = async () => {

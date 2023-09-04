@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -12,15 +12,13 @@ import {
   Grid,
   MenuItem,
 } from "@mui/material";
-import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import crossIcon from "../../../../assets/svgs/cross.svg";
 import submitIcon from "../../../../assets/svgs/Frame.svg";
 
 import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
-import React from "react";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
 import {
   useFarmsCreateMutation,
   useFarmsUpdateMutation,
@@ -29,11 +27,11 @@ import {
 
 const FarmModal = ({ farmId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
-  const [farmCreate, {}] = useFarmsCreateMutation();
-  const [farmUpdate, {}] = useFarmsUpdateMutation();
+  const [farmCreate] = useFarmsCreateMutation();
+  const [farmUpdate] = useFarmsUpdateMutation();
   const { data: farmData } = useFarmsReadQuery(
     { id: farmId },
-    { skip: !farmId }
+    { skip: !farmId },
   );
 
   const handleFarmCreate = async () => {

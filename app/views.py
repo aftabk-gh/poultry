@@ -1,44 +1,43 @@
-from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login
-from django.middleware import csrf
 from django.db import transaction
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
+from django.middleware import csrf
+from django.views.generic import TemplateView
+from rest_framework import status
 from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
-from rest_framework import status
-from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from app.serializers import (
-    FarmSerializer,
-    FlockSerializer,
-    ExpenseSerializer,
-    MedicineSerializer,
-    FeedSerializer,
-    SaleSerializer,
-    OtherIncomeSerializer,
-    OtherExpenseSerializer,
-    SignUpSerializer,
-    LoginSerializer,
-    MeSerializer,
-    MedicineMoveSerializer,
-    MedicineUsageSerializer,
-    FeedMoveSerializer,
-)
+from app.mixins import CompanyMixin, FlockMixin
 from app.models import (
-    User,
     Farm,
-    Flock,
     FarmExpense,
-    Medicine,
     Feed,
-    Sale,
+    Flock,
+    Medicine,
+    MedicineUsage,
     OtherExpense,
     OtherIncome,
-    MedicineUsage,
+    Sale,
+    User,
 )
-from app.mixins import CompanyMixin, FlockMixin, FarmMixinMixin
+from app.serializers import (
+    ExpenseSerializer,
+    FarmSerializer,
+    FeedMoveSerializer,
+    FeedSerializer,
+    FlockSerializer,
+    LoginSerializer,
+    MedicineMoveSerializer,
+    MedicineSerializer,
+    MedicineUsageSerializer,
+    MeSerializer,
+    OtherExpenseSerializer,
+    OtherIncomeSerializer,
+    SaleSerializer,
+    SignUpSerializer,
+)
 
 
 class HomeView(TemplateView):

@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Box, Typography, IconButton } from "@mui/material";
-import {
-  DataGrid,
-  GridToolbar,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarExport,
-} from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
 import { useFlocksFarmExpenseListQuery } from "@src/store/api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -25,7 +19,7 @@ const FarmExpense = () => {
     },
     {
       skip: !id,
-    }
+    },
   );
   const [farmExpenseData, setFarmExpenseData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);
@@ -132,10 +126,6 @@ const FarmExpense = () => {
       },
     },
   ];
-  const navigate = useNavigate();
-  const handleOnCellClick = (params) => {
-    navigate(`/farms/${params.row.id}/flocks/`);
-  };
   useEffect(() => {
     if (!isLoading) {
       if (rows.length) {
@@ -152,7 +142,7 @@ const FarmExpense = () => {
   useEffect(() => {
     // Extract unique item titles across all rows
     const uniqueTitles = Array.from(
-      new Set(rows.flatMap((row) => row.items.map((item) => item.title)))
+      new Set(rows.flatMap((row) => row.items.map((item) => item.title))),
     );
 
     // Generate columns dynamically based on unique titles
@@ -174,24 +164,6 @@ const FarmExpense = () => {
     ...itemColumns,
     ...columns.slice(-2),
   ];
-
-  // Calculate column sums
-  const sums = Object.fromEntries(
-    allColumns.map((col) => [
-      col.field,
-      rows.reduce((acc, row) => {
-        if (col.field in row) {
-          return acc + row[col.field];
-        } else if (row.items) {
-          const item = row.items.find((i) => i.title === col.field);
-          if (item) {
-            return acc + Number(item.value);
-          }
-        }
-        return acc;
-      }, 0),
-    ])
-  );
 
   return (
     <Box className="departmentDataGridTable-section">
@@ -239,7 +211,7 @@ const FarmExpense = () => {
             className="dataGrid"
             rowHeight={80}
             autoHeight
-            rows={rows}
+            rows={[...farmExpenseData]}
             columns={allColumns}
             disableColumnFilter
             disableColumnMenu

@@ -4,40 +4,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('app', '0013_remove_medicine_usage_medicineusage'),
+        ("app", "0013_remove_medicine_usage_medicineusage"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='feed',
-            name='cr',
+            model_name="feed",
+            name="cr",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='medicine',
-            name='description',
-            field=models.TextField(default=''),
+            model_name="medicine",
+            name="description",
+            field=models.TextField(default=""),
         ),
         migrations.AlterField(
-            model_name='medicine',
-            name='moved',
+            model_name="medicine",
+            name="moved",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='medicine',
-            name='opening',
+            model_name="medicine",
+            name="opening",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='medicine',
-            name='rate',
+            model_name="medicine",
+            name="rate",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='medicine',
-            name='recieving',
+            model_name="medicine",
+            name="recieving",
             field=models.IntegerField(default=0),
         ),
     ]

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -13,7 +13,6 @@ import {
 import { Field, Form, Formik } from "formik";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import appIcon from "@src/assets/svgs/sidebar.svg";
 import { AuthContext } from "@src/components/hoc/AuthContext";
 import { emailRegX, toastAPIError } from "@src/helpers/utils/utils";
 import { useSignupCreateMutation } from "@src/store/api";
@@ -45,7 +44,6 @@ const Signup = () => {
           first_name: "",
           last_name: "",
           email: "",
-          password: "",
           com_name: "",
           com_address: "",
           key_activity: "",

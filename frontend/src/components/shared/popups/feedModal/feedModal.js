@@ -29,11 +29,11 @@ import {
 const FeedModal = ({ feedId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [feedCreate, {}] = useFarmsFeedCreateMutation();
-  const [feedUpdate, {}] = useFeedUpdateMutation();
+  const [feedCreate] = useFarmsFeedCreateMutation();
+  const [feedUpdate] = useFeedUpdateMutation();
   const { data: feedData } = useFeedReadQuery(
     { id: feedId },
-    { skip: !feedId }
+    { skip: !feedId },
   );
 
   const handleFeedCreate = async () => {

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import FarmExpenseModal from "../../components/shared/popups/farmsExpenseModal/farmExpenseModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ShowIcon from "@src/assets/svgs/ShowIcon.svg";
 import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
 import AddIcon from "@mui/icons-material/Add";

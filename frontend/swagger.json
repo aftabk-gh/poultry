@@ -1,1925 +1,1760 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "Snippets API",
-        "description": "Test description",
-        "termsOfService": "https://www.google.com/policies/terms/",
-        "contact": {
-            "email": "contact@snippets.local"
-        },
-        "license": {
-            "name": "BSD License"
-        },
-        "version": "v1"
+  "swagger": "2.0",
+  "info": {
+    "title": "Snippets API",
+    "description": "Test description",
+    "termsOfService": "https://www.google.com/policies/terms/",
+    "contact": {
+      "email": "contact@snippets.local"
     },
-    "basePath": "/api",
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "securityDefinitions": {
-        "Basic": {
-            "type": "basic"
-        }
+    "license": {
+      "name": "BSD License"
     },
-    "security": [
-        {
-            "Basic": []
-        }
-    ],
-    "paths": {
-        "/farms/": {
-            "get": {
-                "operationId": "farms_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Farm"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "post": {
-                "operationId": "farms_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Farm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Farm"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "parameters": []
-        },
-        "/farms/{farm_id}/feed/": {
-            "get": {
-                "operationId": "farms_feed_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Feed"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "post": {
-                "operationId": "farms_feed_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Feed"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Feed"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "farm_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/farms/{farm_id}/flocks/": {
-            "get": {
-                "operationId": "farms_flocks_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Flock"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "post": {
-                "operationId": "farms_flocks_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Flock"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Flock"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "farm_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/farms/{farm_id}/medicines/": {
-            "get": {
-                "operationId": "farms_medicines_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Medicine"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "post": {
-                "operationId": "farms_medicines_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Medicine"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Medicine"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "farm_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/farms/{id}/": {
-            "get": {
-                "operationId": "farms_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Farm"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "put": {
-                "operationId": "farms_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Farm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Farm"
-                        }
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "delete": {
-                "operationId": "farms_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "farms"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this farm.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/feed/{id}/": {
-            "get": {
-                "operationId": "feed_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Feed"
-                        }
-                    }
-                },
-                "tags": [
-                    "feed"
-                ]
-            },
-            "put": {
-                "operationId": "feed_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Feed"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Feed"
-                        }
-                    }
-                },
-                "tags": [
-                    "feed"
-                ]
-            },
-            "delete": {
-                "operationId": "feed_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "feed"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this feed.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/feed/{id}/move/": {
-            "put": {
-                "operationId": "feed_move",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/FeedMove"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/FeedMove"
-                        }
-                    }
-                },
-                "tags": [
-                    "feed"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this feed.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/farm_expense/": {
-            "get": {
-                "operationId": "flocks_farm_expense_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Expense"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "post": {
-                "operationId": "flocks_farm_expense_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/farm_expense/{id}/": {
-            "get": {
-                "operationId": "flocks_farm_expense_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "put": {
-                "operationId": "flocks_farm_expense_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "patch": {
-                "operationId": "flocks_farm_expense_partial_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Expense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "delete": {
-                "operationId": "flocks_farm_expense_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this farm expense.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/medicines/": {
-            "get": {
-                "operationId": "flocks_medicines_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/MedicineUsage"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "post": {
-                "operationId": "flocks_medicines_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MedicineUsage"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/MedicineUsage"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/other_expense/": {
-            "get": {
-                "operationId": "flocks_other_expense_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/OtherExpense"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "post": {
-                "operationId": "flocks_other_expense_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/OtherExpense"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherExpense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/other_expense/{id}/": {
-            "get": {
-                "operationId": "flocks_other_expense_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherExpense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "put": {
-                "operationId": "flocks_other_expense_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/OtherExpense"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherExpense"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "delete": {
-                "operationId": "flocks_other_expense_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this other expense.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/other_income/": {
-            "get": {
-                "operationId": "flocks_other_income_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/OtherIncome"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "post": {
-                "operationId": "flocks_other_income_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/OtherIncome"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherIncome"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/other_income/{id}/": {
-            "get": {
-                "operationId": "flocks_other_income_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherIncome"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "put": {
-                "operationId": "flocks_other_income_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/OtherIncome"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/OtherIncome"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "delete": {
-                "operationId": "flocks_other_income_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this other income.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/profit_and_loss/": {
-            "get": {
-                "operationId": "flocks_profit_and_loss_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/sale/": {
-            "get": {
-                "operationId": "flocks_sale_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Sale"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "post": {
-                "operationId": "flocks_sale_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Sale"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Sale"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/flocks/{flock_id}/sale/{id}/": {
-            "get": {
-                "operationId": "flocks_sale_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Sale"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "put": {
-                "operationId": "flocks_sale_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Sale"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Sale"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "delete": {
-                "operationId": "flocks_sale_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "flock_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this sale.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/flocks/{id}/": {
-            "get": {
-                "operationId": "flocks_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Flock"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "put": {
-                "operationId": "flocks_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Flock"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Flock"
-                        }
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "delete": {
-                "operationId": "flocks_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "flocks"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this flock.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/login/": {
-            "post": {
-                "operationId": "login_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Login"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Login"
-                        }
-                    }
-                },
-                "tags": [
-                    "login"
-                ]
-            },
-            "parameters": []
-        },
-        "/me/": {
-            "get": {
-                "operationId": "me_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Me"
-                        }
-                    }
-                },
-                "tags": [
-                    "me"
-                ]
-            },
-            "parameters": []
-        },
-        "/medicine/{id}/": {
-            "get": {
-                "operationId": "medicine_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Medicine"
-                        }
-                    }
-                },
-                "tags": [
-                    "medicine"
-                ]
-            },
-            "put": {
-                "operationId": "medicine_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Medicine"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Medicine"
-                        }
-                    }
-                },
-                "tags": [
-                    "medicine"
-                ]
-            },
-            "delete": {
-                "operationId": "medicine_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "medicine"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this medicine.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/medicine/{id}/move/": {
-            "put": {
-                "operationId": "medicine_move",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MedicineMove"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/MedicineMove"
-                        }
-                    }
-                },
-                "tags": [
-                    "medicine"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this medicine.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/medicine_usage/{id}/": {
-            "get": {
-                "operationId": "medicine_usage_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/MedicineUsage"
-                        }
-                    }
-                },
-                "tags": [
-                    "medicine_usage"
-                ]
-            },
-            "put": {
-                "operationId": "medicine_usage_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MedicineUsage"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/MedicineUsage"
-                        }
-                    }
-                },
-                "tags": [
-                    "medicine_usage"
-                ]
-            },
-            "delete": {
-                "operationId": "medicine_usage_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "medicine_usage"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "description": "A unique integer value identifying this medicine usage.",
-                    "required": true,
-                    "type": "integer"
-                }
-            ]
-        },
-        "/signup/": {
-            "post": {
-                "operationId": "signup_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SignUp"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/SignUp"
-                        }
-                    }
-                },
-                "tags": [
-                    "signup"
-                ]
-            },
-            "parameters": []
-        }
-    },
-    "definitions": {
-        "Farm": {
-            "required": [
-                "name",
-                "category",
-                "no_of_sheds",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "category": {
-                    "title": "Category",
-                    "type": "string",
-                    "enum": [
-                        "laying_breeds",
-                        "meat_production",
-                        "dual_purpose"
-                    ]
-                },
-                "no_of_employees": {
-                    "title": "No of employees",
-                    "type": "integer"
-                },
-                "no_of_sheds": {
-                    "title": "No of sheds",
-                    "type": "integer"
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "manager": {
-                    "title": "Manager",
-                    "type": "integer",
-                    "x-nullable": true
-                }
-            }
-        },
-        "Feed": {
-            "required": [
-                "date",
-                "feed_type",
-                "bags",
-                "rate",
-                "discount"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "format": "date"
-                },
-                "feed_type": {
-                    "title": "Feed type",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "bags": {
-                    "title": "Bags",
-                    "type": "integer"
-                },
-                "rate": {
-                    "title": "Rate",
-                    "type": "integer"
-                },
-                "moved": {
-                    "title": "Moved",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "discount": {
-                    "title": "Discount",
-                    "type": "number"
-                },
-                "cr": {
-                    "title": "Cr",
-                    "type": "integer"
-                },
-                "comments": {
-                    "title": "Comments",
-                    "type": "string",
-                    "x-nullable": true
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "Flock": {
-            "required": [
-                "no"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "no": {
-                    "title": "No",
-                    "type": "integer"
-                },
-                "input_date": {
-                    "title": "Input date",
-                    "type": "string",
-                    "format": "date",
-                    "x-nullable": true
-                },
-                "input_quantity": {
-                    "title": "Input quantity",
-                    "type": "integer",
-                    "x-nullable": true
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "Medicine": {
-            "required": [
-                "name",
-                "packing"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "packing": {
-                    "title": "Packing",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "opening": {
-                    "title": "Opening",
-                    "type": "integer"
-                },
-                "recieving": {
-                    "title": "Recieving",
-                    "type": "integer"
-                },
-                "description": {
-                    "title": "Description",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "moved": {
-                    "title": "Moved",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "rate": {
-                    "title": "Rate",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "FeedMove": {
-            "required": [
-                "farm",
-                "bags"
-            ],
-            "type": "object",
-            "properties": {
-                "farm": {
-                    "title": "Farm",
-                    "type": "integer"
-                },
-                "bags": {
-                    "title": "Bags",
-                    "type": "integer"
-                }
-            }
-        },
-        "Expense": {
-            "required": [
-                "from_date",
-                "to_date"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "from_date": {
-                    "title": "From date",
-                    "type": "string",
-                    "format": "date"
-                },
-                "to_date": {
-                    "title": "To date",
-                    "type": "string",
-                    "format": "date"
-                },
-                "items": {
-                    "title": "Items",
-                    "type": "object"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "MedicineUsage": {
-            "required": [
-                "date",
-                "quantity",
-                "medicine"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "format": "date"
-                },
-                "quantity": {
-                    "title": "Quantity",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "medicine": {
-                    "title": "Medicine",
-                    "type": "integer"
-                }
-            }
-        },
-        "OtherExpense": {
-            "required": [
-                "title",
-                "value"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "title": {
-                    "title": "Title",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "value": {
-                    "title": "Value",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "OtherIncome": {
-            "required": [
-                "title",
-                "value"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "title": {
-                    "title": "Title",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "value": {
-                    "title": "Value",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "Sale": {
-            "required": [
-                "date",
-                "vehicle_no",
-                "f_rate",
-                "weight"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "date": {
-                    "title": "Date",
-                    "type": "string",
-                    "format": "date"
-                },
-                "dealer": {
-                    "title": "Dealer",
-                    "type": "string",
-                    "maxLength": 255,
-                    "x-nullable": true
-                },
-                "vehicle_no": {
-                    "title": "Vehicle no",
-                    "type": "integer"
-                },
-                "f_rate": {
-                    "title": "F rate",
-                    "type": "integer"
-                },
-                "weight": {
-                    "title": "Weight",
-                    "type": "integer"
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "Login": {
-            "required": [
-                "email",
-                "password"
-            ],
-            "type": "object",
-            "properties": {
-                "email": {
-                    "title": "Email",
-                    "type": "string",
-                    "format": "email",
-                    "minLength": 1
-                },
-                "password": {
-                    "title": "Password",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
-        "Me": {
-            "required": [
-                "email"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "first_name": {
-                    "title": "First name",
-                    "type": "string",
-                    "maxLength": 150
-                },
-                "last_name": {
-                    "title": "Last name",
-                    "type": "string",
-                    "maxLength": 150
-                },
-                "email": {
-                    "title": "Email",
-                    "type": "string",
-                    "format": "email",
-                    "maxLength": 254,
-                    "minLength": 1
-                },
-                "company": {
-                    "title": "Company",
-                    "type": "integer",
-                    "x-nullable": true
-                },
-                "is_superuser": {
-                    "title": "Superuser status",
-                    "description": "Designates that this user has all permissions without explicitly assigning them.",
-                    "type": "boolean"
-                }
-            }
-        },
-        "MedicineMove": {
-            "required": [
-                "farm",
-                "quantity"
-            ],
-            "type": "object",
-            "properties": {
-                "farm": {
-                    "title": "Farm",
-                    "type": "integer"
-                },
-                "quantity": {
-                    "title": "Quantity",
-                    "type": "integer"
-                }
-            }
-        },
-        "Company": {
-            "required": [
-                "name",
-                "key_activity",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "key_activity": {
-                    "title": "Key activity",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "maxLength": 255,
-                    "minLength": 1
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
-                }
-            }
-        },
-        "SignUp": {
-            "required": [
-                "email",
-                "password",
-                "company"
-            ],
-            "type": "object",
-            "properties": {
-                "first_name": {
-                    "title": "First name",
-                    "type": "string",
-                    "maxLength": 150
-                },
-                "last_name": {
-                    "title": "Last name",
-                    "type": "string",
-                    "maxLength": 150
-                },
-                "email": {
-                    "title": "Email",
-                    "type": "string",
-                    "format": "email",
-                    "maxLength": 254,
-                    "minLength": 1
-                },
-                "password": {
-                    "title": "Password",
-                    "type": "string",
-                    "maxLength": 128,
-                    "minLength": 1
-                },
-                "company": {
-                    "$ref": "#/definitions/Company"
-                }
-            }
-        }
+    "version": "v1"
+  },
+  "basePath": "/api",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
     }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/farms/": {
+      "get": {
+        "operationId": "farms_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Farm"
+              }
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "post": {
+        "operationId": "farms_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "parameters": []
+    },
+    "/farms/{farm_id}/feed/": {
+      "get": {
+        "operationId": "farms_feed_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Feed"
+              }
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "post": {
+        "operationId": "farms_feed_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feed"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Feed"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "parameters": [
+        {
+          "name": "farm_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/farms/{farm_id}/flocks/": {
+      "get": {
+        "operationId": "farms_flocks_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Flock"
+              }
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "post": {
+        "operationId": "farms_flocks_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Flock"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Flock"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "parameters": [
+        {
+          "name": "farm_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/farms/{farm_id}/medicines/": {
+      "get": {
+        "operationId": "farms_medicines_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Medicine"
+              }
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "post": {
+        "operationId": "farms_medicines_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Medicine"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Medicine"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "parameters": [
+        {
+          "name": "farm_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/farms/{id}/": {
+      "get": {
+        "operationId": "farms_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "put": {
+        "operationId": "farms_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Farm"
+            }
+          }
+        },
+        "tags": ["farms"]
+      },
+      "delete": {
+        "operationId": "farms_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["farms"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this farm.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/feed/{id}/": {
+      "get": {
+        "operationId": "feed_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Feed"
+            }
+          }
+        },
+        "tags": ["feed"]
+      },
+      "put": {
+        "operationId": "feed_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Feed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Feed"
+            }
+          }
+        },
+        "tags": ["feed"]
+      },
+      "delete": {
+        "operationId": "feed_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["feed"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this feed.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/feed/{id}/move/": {
+      "put": {
+        "operationId": "feed_move",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FeedMove"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/FeedMove"
+            }
+          }
+        },
+        "tags": ["feed"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this feed.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/farm_expense/": {
+      "get": {
+        "operationId": "flocks_farm_expense_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Expense"
+              }
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "post": {
+        "operationId": "flocks_farm_expense_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/farm_expense/{id}/": {
+      "get": {
+        "operationId": "flocks_farm_expense_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "put": {
+        "operationId": "flocks_farm_expense_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "patch": {
+        "operationId": "flocks_farm_expense_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Expense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "delete": {
+        "operationId": "flocks_farm_expense_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this farm expense.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/medicines/": {
+      "get": {
+        "operationId": "flocks_medicines_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicineUsage"
+              }
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "post": {
+        "operationId": "flocks_medicines_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicineUsage"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MedicineUsage"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/other_expense/": {
+      "get": {
+        "operationId": "flocks_other_expense_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OtherExpense"
+              }
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "post": {
+        "operationId": "flocks_other_expense_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OtherExpense"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherExpense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/other_expense/{id}/": {
+      "get": {
+        "operationId": "flocks_other_expense_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherExpense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "put": {
+        "operationId": "flocks_other_expense_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OtherExpense"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherExpense"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "delete": {
+        "operationId": "flocks_other_expense_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this other expense.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/other_income/": {
+      "get": {
+        "operationId": "flocks_other_income_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OtherIncome"
+              }
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "post": {
+        "operationId": "flocks_other_income_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OtherIncome"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherIncome"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/other_income/{id}/": {
+      "get": {
+        "operationId": "flocks_other_income_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherIncome"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "put": {
+        "operationId": "flocks_other_income_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OtherIncome"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OtherIncome"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "delete": {
+        "operationId": "flocks_other_income_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this other income.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/profit_and_loss/": {
+      "get": {
+        "operationId": "flocks_profit_and_loss_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/sale/": {
+      "get": {
+        "operationId": "flocks_sale_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Sale"
+              }
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "post": {
+        "operationId": "flocks_sale_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/flocks/{flock_id}/sale/{id}/": {
+      "get": {
+        "operationId": "flocks_sale_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "put": {
+        "operationId": "flocks_sale_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Sale"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "delete": {
+        "operationId": "flocks_sale_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "flock_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this sale.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/flocks/{id}/": {
+      "get": {
+        "operationId": "flocks_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Flock"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "put": {
+        "operationId": "flocks_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Flock"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Flock"
+            }
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "delete": {
+        "operationId": "flocks_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["flocks"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this flock.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/login/": {
+      "post": {
+        "operationId": "login_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        },
+        "tags": ["login"]
+      },
+      "parameters": []
+    },
+    "/me/": {
+      "get": {
+        "operationId": "me_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Me"
+            }
+          }
+        },
+        "tags": ["me"]
+      },
+      "parameters": []
+    },
+    "/medicine/{id}/": {
+      "get": {
+        "operationId": "medicine_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Medicine"
+            }
+          }
+        },
+        "tags": ["medicine"]
+      },
+      "put": {
+        "operationId": "medicine_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Medicine"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Medicine"
+            }
+          }
+        },
+        "tags": ["medicine"]
+      },
+      "delete": {
+        "operationId": "medicine_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["medicine"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this medicine.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/medicine/{id}/move/": {
+      "put": {
+        "operationId": "medicine_move",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicineMove"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MedicineMove"
+            }
+          }
+        },
+        "tags": ["medicine"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this medicine.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/medicine_usage/{id}/": {
+      "get": {
+        "operationId": "medicine_usage_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MedicineUsage"
+            }
+          }
+        },
+        "tags": ["medicine_usage"]
+      },
+      "put": {
+        "operationId": "medicine_usage_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicineUsage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MedicineUsage"
+            }
+          }
+        },
+        "tags": ["medicine_usage"]
+      },
+      "delete": {
+        "operationId": "medicine_usage_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": ["medicine_usage"]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this medicine usage.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/signup/": {
+      "post": {
+        "operationId": "signup_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SignUp"
+            }
+          }
+        },
+        "tags": ["signup"]
+      },
+      "parameters": []
+    }
+  },
+  "definitions": {
+    "Farm": {
+      "required": ["name", "category", "no_of_sheds", "address"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "category": {
+          "title": "Category",
+          "type": "string",
+          "enum": ["laying_breeds", "meat_production", "dual_purpose"]
+        },
+        "no_of_employees": {
+          "title": "No of employees",
+          "type": "integer"
+        },
+        "no_of_sheds": {
+          "title": "No of sheds",
+          "type": "integer"
+        },
+        "address": {
+          "title": "Address",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "manager": {
+          "title": "Manager",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "Feed": {
+      "required": ["date", "feed_type", "bags", "rate", "discount"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "date": {
+          "title": "Date",
+          "type": "string",
+          "format": "date"
+        },
+        "feed_type": {
+          "title": "Feed type",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "bags": {
+          "title": "Bags",
+          "type": "integer"
+        },
+        "rate": {
+          "title": "Rate",
+          "type": "integer"
+        },
+        "moved": {
+          "title": "Moved",
+          "type": "integer",
+          "readOnly": true
+        },
+        "discount": {
+          "title": "Discount",
+          "type": "number"
+        },
+        "cr": {
+          "title": "Cr",
+          "type": "integer"
+        },
+        "comments": {
+          "title": "Comments",
+          "type": "string",
+          "x-nullable": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Flock": {
+      "required": ["no"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "no": {
+          "title": "No",
+          "type": "integer"
+        },
+        "input_date": {
+          "title": "Input date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "input_quantity": {
+          "title": "Input quantity",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Medicine": {
+      "required": ["name", "packing"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "packing": {
+          "title": "Packing",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "opening": {
+          "title": "Opening",
+          "type": "integer"
+        },
+        "recieving": {
+          "title": "Recieving",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "minLength": 1
+        },
+        "moved": {
+          "title": "Moved",
+          "type": "integer",
+          "readOnly": true
+        },
+        "rate": {
+          "title": "Rate",
+          "type": "integer"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "FeedMove": {
+      "required": ["farm", "bags"],
+      "type": "object",
+      "properties": {
+        "farm": {
+          "title": "Farm",
+          "type": "integer"
+        },
+        "bags": {
+          "title": "Bags",
+          "type": "integer"
+        }
+      }
+    },
+    "Expense": {
+      "required": ["from_date", "to_date"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "from_date": {
+          "title": "From date",
+          "type": "string",
+          "format": "date"
+        },
+        "to_date": {
+          "title": "To date",
+          "type": "string",
+          "format": "date"
+        },
+        "items": {
+          "title": "Items",
+          "type": "object"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "MedicineUsage": {
+      "required": ["date", "quantity", "medicine"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "date": {
+          "title": "Date",
+          "type": "string",
+          "format": "date"
+        },
+        "quantity": {
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "medicine": {
+          "title": "Medicine",
+          "type": "integer"
+        }
+      }
+    },
+    "OtherExpense": {
+      "required": ["title", "value"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "title": {
+          "title": "Title",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "value": {
+          "title": "Value",
+          "type": "integer"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "OtherIncome": {
+      "required": ["title", "value"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "title": {
+          "title": "Title",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "value": {
+          "title": "Value",
+          "type": "integer"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Sale": {
+      "required": ["date", "vehicle_no", "f_rate", "weight"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "date": {
+          "title": "Date",
+          "type": "string",
+          "format": "date"
+        },
+        "dealer": {
+          "title": "Dealer",
+          "type": "string",
+          "maxLength": 255,
+          "x-nullable": true
+        },
+        "vehicle_no": {
+          "title": "Vehicle no",
+          "type": "integer"
+        },
+        "f_rate": {
+          "title": "F rate",
+          "type": "integer"
+        },
+        "weight": {
+          "title": "Weight",
+          "type": "integer"
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "Login": {
+      "required": ["email", "password"],
+      "type": "object",
+      "properties": {
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "minLength": 1
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Me": {
+      "required": ["email"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "first_name": {
+          "title": "First name",
+          "type": "string",
+          "maxLength": 150
+        },
+        "last_name": {
+          "title": "Last name",
+          "type": "string",
+          "maxLength": 150
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 254,
+          "minLength": 1
+        },
+        "company": {
+          "title": "Company",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "is_superuser": {
+          "title": "Superuser status",
+          "description": "Designates that this user has all permissions without explicitly assigning them.",
+          "type": "boolean"
+        }
+      }
+    },
+    "MedicineMove": {
+      "required": ["farm", "quantity"],
+      "type": "object",
+      "properties": {
+        "farm": {
+          "title": "Farm",
+          "type": "integer"
+        },
+        "quantity": {
+          "title": "Quantity",
+          "type": "integer"
+        }
+      }
+    },
+    "Company": {
+      "required": ["name", "key_activity", "address"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "key_activity": {
+          "title": "Key activity",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "address": {
+          "title": "Address",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
+    },
+    "SignUp": {
+      "required": ["email", "password", "company"],
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "title": "First name",
+          "type": "string",
+          "maxLength": 150
+        },
+        "last_name": {
+          "title": "Last name",
+          "type": "string",
+          "maxLength": 150
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 254,
+          "minLength": 1
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "company": {
+          "$ref": "#/definitions/Company"
+        }
+      }
+    }
+  }
 }

@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
-import Avatar from "@src/assets/svgs/avatar.svg";
-import FilterIcon from "@src/assets/svgs/filterButtonIcon.svg";
 import EditIcon from "@src/assets/svgs/Edit.svg";
 import "../farms/farms.scss";
-import SearchBox from "../../components/shared/layout/searchBox/searchBox";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFarmsFlocksListQuery } from "@src/store/api";
 import FlockModal from "@src/components/shared/popups/flocksModal/flocksModal";
@@ -19,7 +15,7 @@ function Flock() {
   const [pageSize, setPageSize] = useState(10);
   const { data: rows = [], isLoading } = useFarmsFlocksListQuery(
     { farmId: farmId },
-    { skip: !farmId }
+    { skip: !farmId },
   );
 
   const [action, setAction] = useState("add");

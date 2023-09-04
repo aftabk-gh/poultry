@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import DeleteIcon from "@src/assets/svgs/DeleteIcon.svg";
-import Avatar from "@src/assets/svgs/avatar.svg";
-import FilterIcon from "@src/assets/svgs/filterButtonIcon.svg";
 import EditIcon from "@src/assets/svgs/Edit.svg";
 import "../farms/farms.scss";
-import SearchBox from "../../components/shared/layout/searchBox/searchBox";
 import { useFarmsListQuery } from "../../store/generated.ts";
 import { useNavigate } from "react-router-dom";
 import FarmModal from "@src/components/shared/popups/farmsModal/farmsModal";

@@ -1,8 +1,8 @@
-import { Box, InputAdornment, TextField } from "@mui/material";
+import React, { Box, InputAdornment, TextField } from "@mui/material";
 import searchBox from "@src/assets/svgs/searchBox.svg";
 import "./searchBox.scss";
 
-const SearchBox = ({ setSearchText, text }) => {
+const SearchBox = ({ text }) => {
   return (
     <Box className="text-cls">
       <TextField

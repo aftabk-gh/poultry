@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -32,11 +32,11 @@ import {
 const FarmExpenseModal = ({ farmExpenseId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const { id: flockId } = useParams();
-  const [farmExpenseCreate, {}] = useFlocksFarmExpenseCreateMutation();
-  const [farmExpenseUpdate, {}] = useFlocksFarmExpenseUpdateMutation();
+  const [farmExpenseCreate] = useFlocksFarmExpenseCreateMutation();
+  const [farmExpenseUpdate] = useFlocksFarmExpenseUpdateMutation();
   const { data: farmExpenseData } = useFlocksFarmExpenseReadQuery(
     { id: farmExpenseId, flockId },
-    { skip: !farmExpenseId }
+    { skip: !farmExpenseId },
   );
 
   const handleFarmExpenseCreate = async () => {
@@ -114,7 +114,7 @@ const FarmExpenseModal = ({ farmExpenseId, action, open, handleClose }) => {
               .typeError("Please enter a valid number")
               .required("This field is required")
               .positive("Please enter a positive number"),
-          })
+          }),
         )
         .required("Required")
         .min(1, "Minimum 1 entry is required"),
@@ -201,9 +201,9 @@ const FarmExpenseModal = ({ farmExpenseId, action, open, handleClose }) => {
                 render={({ remove, push }) => (
                   <div>
                     {formik.values.items?.map((_, index) => (
-                      <Grid container spacing={1} marginTop={1}>
+                      <Grid container spacing={1} marginTop={1} key={index}>
                         <Grid item xs={6}>
-                          <div key={index}>
+                          <div>
                             <TextField
                               margin="normal"
                               className="text-field-cls"

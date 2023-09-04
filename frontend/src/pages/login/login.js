@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -16,7 +16,6 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import HideIcon from "@src/assets/svgs/HideIcon.svg";
 import showIcon from "@src/assets/svgs/Show.svg";
-import appIcon from "@src/assets/svgs/sidebar.svg";
 
 import { AuthContext } from "@src/components/hoc/AuthContext";
 import { useLoginCreateMutation } from "@src/store/api";
@@ -69,7 +68,7 @@ const Login = () => {
               navigate("/");
             })
             .catch((error) =>
-              toast.error(error.data.detail || "Something went wrong")
+              toast.error(error.data.detail || "Something went wrong"),
             )
             .finally(() => {
               setSubmitting(false);

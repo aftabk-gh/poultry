@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -29,11 +29,11 @@ import {
 const OtherIncomeModal = ({ otherIncomeId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const { id: flockId } = useParams();
-  const [otherIncomeCreate, {}] = useFlocksOtherIncomeCreateMutation();
-  const [otherIncomeUpdate, {}] = useFlocksOtherIncomeUpdateMutation();
+  const [otherIncomeCreate] = useFlocksOtherIncomeCreateMutation();
+  const [otherIncomeUpdate] = useFlocksOtherIncomeUpdateMutation();
   const { data: otherIncomeData } = useFlocksOtherIncomeReadQuery(
     { id: otherIncomeId, flockId },
-    { skip: !otherIncomeId }
+    { skip: !otherIncomeId },
   );
 
   const handleOtherIncomeCreate = async () => {

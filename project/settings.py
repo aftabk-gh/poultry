@@ -10,16 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 import dj_database_url
+from dotenv import load_dotenv
 
 IS_HEROKU = "DYNO" in os.environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-from dotenv import load_dotenv
 
 load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
@@ -113,7 +113,7 @@ if os.getenv("DB_URL"):
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",

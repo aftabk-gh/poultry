@@ -27,7 +27,7 @@ const FlockMedicine = () => {
     },
     {
       skip: !id,
-    }
+    },
   );
   const [medicineData, setMedicineData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);

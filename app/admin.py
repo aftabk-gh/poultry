@@ -1,6 +1,7 @@
 from django.contrib import admin
-from app import models
 from django.contrib.auth.admin import UserAdmin as CoreUserAdmin
+
+from app import models
 
 
 @admin.register(models.User)

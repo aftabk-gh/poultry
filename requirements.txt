@@ -1,11 +1,12 @@
 asgiref==3.6.0
+dj-database-url>=1.0,<2.0
 Django==4.1.4
 django-webpack-loader==1.8.1
+djangorestframework==3.14.0
+drf-yasg==1.21.5
+gunicorn==21.2.0
+pre-commit==3.4.0
 psycopg2-binary==2.9.5
 python-dotenv==0.21.1
 sqlparse==0.4.3
-gunicorn==21.2.0
-dj-database-url>=1.0,<2.0
 whitenoise>=6.0,<7.0
-djangorestframework==3.14.0
-drf-yasg==1.21.5

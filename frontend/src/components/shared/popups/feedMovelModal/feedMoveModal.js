@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -15,14 +15,12 @@ import {
   InputLabel,
   Select,
 } from "@mui/material";
-import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import crossIcon from "../../../../assets/svgs/cross.svg";
 import submitIcon from "../../../../assets/svgs/Frame.svg";
-import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
-import uploadIcon from "../../../../assets/svgs/plus.svg";
 
-import { intRegex, timeOut, toastAPIError } from "@src/helpers/utils/utils";
+import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 import React from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
@@ -31,7 +29,7 @@ import { useFeedMoveMutation, useFarmsListQuery } from "@src/store/api";
 const FeedMoveModal = ({ open, handleClose, feedId }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [feedMove, {}] = useFeedMoveMutation();
+  const [feedMove] = useFeedMoveMutation();
   const { data: farmsData = [] } = useFarmsListQuery();
 
   const handleFeedMove = async () => {
@@ -83,9 +81,7 @@ const FeedMoveModal = ({ open, handleClose, feedId }) => {
         <DialogTitle>
           <Box className="modal-header-cls">
             <Box className="heading-text-box">
-              <Typography className="heading-text">
-                {"Move a Feed"}
-              </Typography>
+              <Typography className="heading-text">{"Move a Feed"}</Typography>
               <Typography className="subheading-text">
                 {"Fill the following fields to move a feed"}
               </Typography>

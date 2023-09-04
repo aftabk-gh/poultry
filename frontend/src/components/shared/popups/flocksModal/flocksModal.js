@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
@@ -11,12 +11,10 @@ import {
   TextField,
   Grid,
 } from "@mui/material";
-import { useFormik, FieldArray, FormikProvider } from "formik";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import crossIcon from "../../../../assets/svgs/cross.svg";
 import submitIcon from "../../../../assets/svgs/Frame.svg";
-import smallCrossIcon from "../../../../assets/svgs/smallcross.svg";
-import uploadIcon from "../../../../assets/svgs/plus.svg";
 
 import { timeOut, toastAPIError } from "@src/helpers/utils/utils";
 import React from "react";
@@ -31,11 +29,11 @@ import {
 const FlockModal = ({ flockId, action, open, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const { farmId } = useParams();
-  const [flockCreate, {}] = useFarmsFlocksCreateMutation();
-  const [flockUpdate, {}] = useFlocksUpdateMutation();
+  const [flockCreate] = useFarmsFlocksCreateMutation();
+  const [flockUpdate] = useFlocksUpdateMutation();
   const { data: flockData } = useFlocksReadQuery(
     { id: flockId },
-    { skip: !flockId }
+    { skip: !flockId },
   );
   const handleFlockCreate = async () => {
     setLoading(true);

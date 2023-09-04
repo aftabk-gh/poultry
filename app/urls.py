@@ -1,20 +1,21 @@
-from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.urls import include, path
 from rest_framework import routers
+
 from app.views import (
-    LoginView,
-    SignUpViewSet,
-    FarmViewSet,
-    FlockViewSet,
     FarmExpenseViewSet,
-    MedicineViewSet,
+    FarmViewSet,
     FeedViewSet,
-    SaleViewSet,
+    FlockViewSet,
+    LoginView,
+    MeApiView,
+    MedicineUsageView,
+    MedicineViewSet,
     OtherExpenseViewSet,
     OtherIncomeViewSet,
     ProfitAndLossApiView,
-    MeApiView,
-    MedicineUsageView,
+    SaleViewSet,
+    SignUpViewSet,
 )
 
 router = routers.DefaultRouter()

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('app', '0015_remove_feed_flock_feed_farm'),
+        ("app", "0015_remove_feed_flock_feed_farm"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='feed',
-            name='moved',
+            model_name="feed",
+            name="moved",
             field=models.IntegerField(default=0),
         ),
     ]

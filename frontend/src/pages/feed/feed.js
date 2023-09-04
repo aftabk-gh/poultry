@@ -27,7 +27,7 @@ const Feed = () => {
     },
     {
       skip: !farmId,
-    }
+    },
   );
   const [feedData, setFeedData] = useState([]);
   const [dataLoading, setIsDataLoading] = useState(true);

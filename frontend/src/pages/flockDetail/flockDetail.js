@@ -8,8 +8,6 @@ import FarmExpense from "../farmExpense/farmExpense";
 import CashBook from "../cashBook/cashBook";
 import Attendance from "../attendance/attendance";
 import Sale from "../sale/sale";
-import Medicine from "../medicine/medicine";
-import Feed from "../feed/feed";
 import Staff from "../staff/staff";
 import Capital from "../capital/capital";
 import ProfitAndLoss from "../profitAndLoss/profitAndLoss";

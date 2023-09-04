@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import uploadIcon from "@src/assets/svgs/plus.svg";
 import "./profitAndLoss.scss";
@@ -18,7 +18,7 @@ const ProfitAndLoss = () => {
       {
         flockId,
       },
-      { skip: !flockId }
+      { skip: !flockId },
     );
   const [expData, setOtherExpData] = useState([]);
   const { data: otherIncomeData = [], isIncomeDataLoading } =
@@ -26,14 +26,14 @@ const ProfitAndLoss = () => {
       {
         flockId,
       },
-      { skip: !flockId }
+      { skip: !flockId },
     );
   const { data: profit_loss_data = [], isProfitLossLoading } =
     useFlocksProfitAndLossListQuery(
       {
         flockId: flockId,
       },
-      { skip: !flockId }
+      { skip: !flockId },
     );
   const [expAction, setExpAction] = useState("add");
   const [rowExpCellId, setExpRowCellId] = useState();
@@ -44,13 +44,6 @@ const ProfitAndLoss = () => {
   const [openIncomeModal, setIncomeOpenModal] = useState(false);
   const [openExpModal, setExpOpenModal] = useState(false);
 
-  const data = {
-    inputDate: "2022-01-01",
-    inputQuantity: 100,
-    saleDate: "2022-01-15",
-    saleQuantity: 50,
-    flockDuration: 30,
-  };
   const handleModalOpen = (item) => {
     item == "exp" && setExpOpenModal(true);
     item == "inc" && setIncomeOpenModal(true);
@@ -248,12 +241,13 @@ const ProfitAndLoss = () => {
               <strong>{"% To Expense"}</strong>
             </Grid>
           </Grid>
-          {expData.map((item) => {
+          {expData.map((item, key) => {
             return (
               <Grid
                 container
                 gap={2}
                 mt=".5rem"
+                key={key}
                 style={{
                   cursor: "pointer",
                 }}
@@ -299,10 +293,11 @@ const ProfitAndLoss = () => {
             <Grid item xs={1}>
               <strong>{"% To Income"}</strong>
             </Grid>
-            {incomeData.map((item) => {
+            {incomeData.map((item, key) => {
               return (
                 <Grid
                   container
+                  key={key}
                   style={{
                     cursor: "pointer",
                   }}

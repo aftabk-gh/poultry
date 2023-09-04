@@ -27,7 +27,7 @@ export const toastAPIError = (message, status, data) => {
           {
             autoClose: 3000,
             pauseOnHover: false,
-          }
+          },
         );
       }
       break;
@@ -47,7 +47,7 @@ export const toastAPIError = (message, status, data) => {
         {
           autoClose: 3000,
           pauseOnHover: false,
-        }
+        },
       );
       break;
     }
@@ -71,4 +71,4 @@ export const toastAPIError = (message, status, data) => {
 export const timeOut = 2000;
 export const intRegex = /^(null|\d+(\.\d+)?)$/;
 export const emailRegX =
-  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
