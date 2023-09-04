@@ -3,7 +3,11 @@ from django.db import transaction
 from django.middleware import csrf
 from django.views.generic import TemplateView
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, GenericAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    GenericAPIView,
+    RetrieveAPIView,
+)
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
