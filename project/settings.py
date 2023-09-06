@@ -32,16 +32,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["poultrysolutions.tech,nginx"]
 
-CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://poultrysolutions.tech", "http://nginx"]
 
-
-CORS_ALLOWED_ORIGINS = [
-    "localhost",
-    "http://127.0.0.1",
-    "http://13.126.130.210",
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]
 
 
 INSTALLED_APPS = [
