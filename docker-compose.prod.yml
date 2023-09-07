@@ -29,7 +29,7 @@ services:
       - static_volume:/opt/code/staticfiles
       - static_volume:/opt/code/mediafiles
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - app
 volumes:
